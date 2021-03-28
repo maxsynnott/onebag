@@ -17,4 +17,14 @@ export class BagController {
 
 		res.json(bag)
 	}
+
+	async show(req: Request, res: Response) {
+		const { id } = req.params
+
+		const bagService = new BagService()
+
+		const bag = await bagService.findOne(Number(id))
+
+		res.json(bag)
+	}
 }

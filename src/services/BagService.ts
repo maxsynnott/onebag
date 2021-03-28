@@ -7,6 +7,9 @@ export class BagService {
 	async findAll() {
 		return this.bagRepository.find()
 	}
+	async findOne(id: number) {
+		return this.bagRepository.findOne(id)
+	}
 
 	async create(attributes: Bag) {
 		const bag = new Bag()
