@@ -9,5 +9,9 @@ router.post(
 		res.json(req.user)
 	},
 )
+router.delete('/', (req: Request, res: Response) => {
+	req.logOut()
+	res.json(req.user)
+})
 
 export default router
