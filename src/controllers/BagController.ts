@@ -9,4 +9,12 @@ export class BagController {
 
 		res.json(bags)
 	}
+
+	async create(req: Request, res: Response) {
+		const bagService = new BagService()
+
+		const bag = await bagService.create(req.body)
+
+		res.json(bag)
+	}
 }

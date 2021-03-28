@@ -7,4 +7,7 @@ export class Bag {
 
 	@Column()
 	title: string
+
+	@Column()
+	description: string
 }

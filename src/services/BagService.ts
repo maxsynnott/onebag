@@ -7,4 +7,11 @@ export class BagService {
 	async findAll() {
 		return this.bagRepository.find()
 	}
+
+	async create(attributes: Bag) {
+		const bag = new Bag()
+		Object.assign(bag, attributes)
+
+		return this.bagRepository.save(bag)
+	}
 }
