@@ -1,14 +1,15 @@
 import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 import express from 'express'
-import bodyParser from 'body-parser'
 import { router } from './routers'
+import { initialize } from './initializers'
 
 createConnection()
 	.then(async () => {
 		// create express app
 		const app = express()
-		app.use(bodyParser.json())
+
+		initialize(app)
 
 		app.use(router)
 
