@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core'
+import { Box, Container } from '@material-ui/core'
 import Header from './Header'
 
 interface LayoutWrapperProps {
@@ -7,9 +7,9 @@ interface LayoutWrapperProps {
 
 export default function LayoutWrapper({ children }: LayoutWrapperProps) {
 	return (
-		<Box>
+		<Container maxWidth="lg">
 			<Header />
 			{children}
-		</Box>
+		</Container>
 	)
 }
