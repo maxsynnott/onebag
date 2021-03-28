@@ -1,7 +1,5 @@
 import { UserController } from '../controllers/UserController'
 import { Router } from 'express'
-import passport from 'passport'
-import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 
 const controller = new UserController()
 

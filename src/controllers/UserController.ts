@@ -7,7 +7,6 @@ export class UserController {
 		const userService = new UserService()
 
 		const user = await userService.create(req.body)
-
 		res.json(user)
 	}
 

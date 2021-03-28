@@ -5,9 +5,18 @@ import bcrypt from 'bcrypt'
 export class UserService {
 	private userRepository = getRepository(User)
 
-	async create({ email, password }: { email: string; password: string }) {
+	async create({
+		username,
+		email,
+		password,
+	}: {
+		username: string
+		email: string
+		password: string
+	}) {
 		const user = new User()
 
+		user.username = username
 		user.email = email
 
 		const saltRounds = 10
