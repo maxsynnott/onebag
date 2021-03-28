@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
+import { User } from './User'
 
 @Entity()
 export class Bag {
@@ -8,6 +9,9 @@ export class Bag {
 	@Column()
 	title: string
 
-	@Column()
+	@Column({ default: '' })
 	description: string
+
+	@ManyToOne(() => User, (user) => user.bags)
+	user: User
 }

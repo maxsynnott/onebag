@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { BagService } from '../services/BagService'
+import { RequestWithUser } from '../types'
 
 export class BagController {
 	async index(req: Request, res: Response) {
@@ -10,10 +11,10 @@ export class BagController {
 		res.json(bags)
 	}
 
-	async create(req: Request, res: Response) {
+	async create(req: RequestWithUser, res: Response) {
 		const bagService = new BagService()
 
-		const bag = await bagService.create(req.body)
+		const bag = await bagService.create(req.body, req.user)
 
 		res.json(bag)
 	}

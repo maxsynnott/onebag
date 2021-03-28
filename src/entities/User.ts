@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import { Bag } from './Bag'
 
 @Entity()
 export class User {
@@ -13,4 +14,7 @@ export class User {
 
 	@Column()
 	passwordHash: string
+
+	@OneToMany(() => Bag, (bag) => bag.user)
+	bags: Bag[]
 }
