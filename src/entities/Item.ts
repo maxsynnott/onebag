@@ -2,10 +2,10 @@ import {
 	Entity,
 	PrimaryGeneratedColumn,
 	Column,
-	ManyToMany,
 	ManyToOne,
+	OneToMany,
 } from 'typeorm'
-import { Bag } from './Bag'
+import { BagItem } from './BagItem'
 import { Product } from './Product'
 
 @Entity()
@@ -16,12 +16,9 @@ export class Item {
 	@Column()
 	name: string
 
-	@Column({ default: '' })
-	comment: string
-
-	@ManyToMany(() => Bag, (bag) => bag.items)
-	bags: Bag[]
-
 	@ManyToOne(() => Product, (product) => product.items)
 	product: Product
+
+	@OneToMany(() => BagItem, (bagItem) => bagItem.item)
+	bagItems: BagItem[]
 }

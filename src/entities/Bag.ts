@@ -3,10 +3,9 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	ManyToOne,
-	JoinTable,
-	ManyToMany,
+	OneToMany,
 } from 'typeorm'
-import { Item } from './Item'
+import { BagItem } from './BagItem'
 import { User } from './User'
 
 @Entity()
@@ -23,7 +22,6 @@ export class Bag {
 	@ManyToOne(() => User, (user) => user.bags, { nullable: false })
 	user: User
 
-	@ManyToMany(() => Item, (item) => item.bags)
-	@JoinTable()
-	items: Item[]
+	@OneToMany(() => BagItem, (bagItem) => bagItem.bag)
+	bagItems: BagItem[]
 }
