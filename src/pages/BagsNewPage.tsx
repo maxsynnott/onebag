@@ -1,0 +1,87 @@
+import {
+	Button,
+	Container,
+	makeStyles,
+	TextField,
+	Typography,
+} from '@material-ui/core'
+import axios from 'axios'
+import { FormEvent, useState } from 'react'
+import { useMutation, useQueryClient } from 'react-query'
+import { useHistory } from 'react-router'
+import { Bag } from '../types'
+
+const useStyles = makeStyles((theme) => ({
+	paper: {
+		marginTop: theme.spacing(8),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+	},
+	form: {
+		width: '100%', // Fix IE 11 issue.
+		marginTop: theme.spacing(1),
+	},
+	submit: {
+		margin: theme.spacing(3, 0, 2),
+	},
+}))
+
+export default function BagsNewPage() {
+	const classes = useStyles()
+	const [name, setName] = useState('')
+	const history = useHistory()
+
+	const { mutate: createBag } = useMutation(
+		async () => {
+			const response = await axios.post(
+				'http://localhost:8080/bags',
+				{ name },
+				{ withCredentials: true },
+			)
+			return response.data
+		},
+		{
+			onSuccess: (bag: Bag) => {
+				history.push(`/bags/${bag.id}/edit`)
+			},
+		},
+	)
+
+	const handleCreateBag = (e: FormEvent) => {
+		e.preventDefault()
+		createBag()
+	}
+
+	return (
+		<Container component="main" maxWidth="md">
+			<div className={classes.paper}>
+				<Typography variant="h5">Create your onebag</Typography>
+				<form className={classes.form} onSubmit={handleCreateBag}>
+					<TextField
+						variant="outlined"
+						margin="normal"
+						required
+						fullWidth
+						id="name"
+						label="Name"
+						name="name"
+						placeholder="Indefinite travel in SE Asia"
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						autoFocus
+					/>
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						color="primary"
+						className={classes.submit}
+					>
+						{'Add items & more info'}
+					</Button>
+				</form>
+			</div>
+		</Container>
+	)
+}
