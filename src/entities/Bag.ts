@@ -7,7 +7,7 @@ export class Bag {
 	id: number
 
 	@Column()
-	title: string
+	name: string
 
 	@Column({ default: '' })
 	description: string
