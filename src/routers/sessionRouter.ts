@@ -7,7 +7,6 @@ router.post(
 	'/',
 	passport.authenticate('local'),
 	(req: Request, res: Response) => {
-		console.log('here')
 		res.json(req.user)
 	},
 )

@@ -12,10 +12,16 @@ export class BagService {
 		return this.bagRepository.findOne(id)
 	}
 
-	async create(attributes: Bag, user: User) {
+	async create(attributes: Partial<Bag>, user: User) {
 		const bag = new Bag()
-		Object.assign(bag, attributes)
+		Object.assign(bag, attributes, { user })
 
 		return this.bagRepository.save(bag)
+	}
+
+	async update(bag: Bag, attributes: Partial<Bag>) {
+		const updatedBag = Object.assign(bag, attributes)
+
+		return this.bagRepository.save(updatedBag)
 	}
 }
