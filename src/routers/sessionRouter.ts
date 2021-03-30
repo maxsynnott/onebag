@@ -1,19 +1,33 @@
-import { Request, Response } from 'express'
+import { Request, Response, Router } from 'express'
 import passport from 'passport'
+import { RoutesObject } from '../types'
+import applyRoutes from './applyRoutes'
 
-export default {
-	'/sessions': {
-		post: [
-			passport.authenticate('local'),
-			(req: Request, res: Response) => {
-				res.json(req.user)
-			},
-		],
-		delete: [
-			(req: Request, res: Response) => {
-				req.logOut()
-				res.json(req.user)
-			},
-		],
-	},
+const router = Router()
+
+const routes: RoutesObject = {
+	'/sessions': [
+		{
+			method: 'post',
+			handlers: [
+				passport.authenticate('local'),
+				(req: Request, res: Response) => {
+					res.json(req.user)
+				},
+			],
+		},
+		{
+			method: 'delete',
+			handlers: [
+				(req: Request, res: Response) => {
+					req.logOut()
+					res.json(req.user)
+				},
+			],
+		},
+	],
 }
+
+applyRoutes(router, routes)
+
+export default router
