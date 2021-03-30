@@ -3,7 +3,8 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	ManyToOne,
-	OneToMany,
+	JoinTable,
+	ManyToMany,
 } from 'typeorm'
 import { Item } from './Item'
 import { User } from './User'
@@ -22,6 +23,7 @@ export class Bag {
 	@ManyToOne(() => User, (user) => user.bags, { nullable: false })
 	user: User
 
-	@OneToMany(() => Item, (item) => item.bag)
+	@ManyToMany(() => Item, (item) => item.bags)
+	@JoinTable()
 	items: Item[]
 }
