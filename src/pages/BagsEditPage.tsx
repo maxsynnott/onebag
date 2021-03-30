@@ -1,15 +1,28 @@
-import {
-	Button,
-	Container,
-	makeStyles,
-	TextField,
-	Typography,
-} from '@material-ui/core'
+import { Button, Container, makeStyles, TextField } from '@material-ui/core'
 import axios from 'axios'
-import React, { FormEvent, useEffect, useState } from 'react'
+import MUIRichTextEditor from 'mui-rte'
+import { FormEvent, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router'
 import { Bag } from '../types'
+import { convertToRaw } from 'draft-js'
+
+const enabledControls = [
+	'title',
+	'bold',
+	'italic',
+	'underline',
+	'strikethrough',
+	'highlight',
+	'undo',
+	'redo',
+	'numberList',
+	'bulletList',
+	'quote',
+	'clear',
+	'code',
+	'save',
+]
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -24,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2),
+	},
+	root: {
+		flexGrow: 1,
+		maxWidth: 500,
 	},
 }))
 
@@ -44,6 +61,7 @@ export default function BagsEditPage() {
 		{
 			onSuccess: (bag: Bag) => {
 				setName(bag.name)
+				setDescription(bag.description)
 				setEnabled(false)
 			},
 			enabled,
@@ -60,7 +78,7 @@ export default function BagsEditPage() {
 			return response.data
 		},
 		{
-			onSuccess: (d) => {
+			onSuccess: () => {
 				refetch()
 			},
 		},
@@ -88,20 +106,26 @@ export default function BagsEditPage() {
 						onChange={(e) => setName(e.target.value)}
 						autoFocus
 					/>
-					<TextField
-						variant="outlined"
-						margin="normal"
-						multiline
-						fullWidth
-						id="description"
-						label="Description"
-						name="description"
-						placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis facere consectetur ea magnam tenetur recusandae. Tempora itaque repellendus nesciunt, quia odit tempore assumenda recusandae quo fugit a omnis quas unde."
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
-						autoFocus
+					<MUIRichTextEditor
+						defaultValue={description}
+						label="Start typing"
+						controls={enabledControls}
+						onChange={(editorState) => {
+							// This is a shitty temp solution to an infinite loop
+							if (description) {
+								const contentState = editorState.getCurrentContent()
+								const rawContentState = convertToRaw(
+									contentState,
+								)
+								const stringifiedRawContentState = JSON.stringify(
+									rawContentState,
+								)
+								console.log(stringifiedRawContentState)
+								setDescription(stringifiedRawContentState)
+							}
+						}}
 					/>
-
+					ITEMS WILL GO HERE
 					<Button
 						type="submit"
 						fullWidth
@@ -109,7 +133,7 @@ export default function BagsEditPage() {
 						color="primary"
 						className={classes.submit}
 					>
-						Update bag
+						Update bag (THIS WILL BE REMOVED TO MAKE A FANCY FORM)
 					</Button>
 				</form>
 			</div>
