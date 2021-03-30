@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	ManyToOne,
+	OneToMany,
+} from 'typeorm'
+import { Item } from './Item'
 import { User } from './User'
 
 @Entity()
@@ -12,6 +19,9 @@ export class Bag {
 	@Column({ default: '' })
 	description: string
 
-	@ManyToOne(() => User, (user) => user.bags)
+	@ManyToOne(() => User, (user) => user.bags, { nullable: false })
 	user: User
+
+	@OneToMany(() => Item, (item) => item.bag)
+	items: Item[]
 }
