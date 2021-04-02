@@ -11,7 +11,18 @@ export interface User {
 }
 
 export interface Item {
+	id: string
 	name: string
+}
+
+export interface BagItem {
+	id: string
+	comment: string
+	quantity: number
+}
+
+export interface BagItemPostRequestPayload extends BagItem {
+	item: Partial<Item>
 }
 
 export interface LoginCredentials {
