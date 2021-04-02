@@ -3,10 +3,12 @@ import { ItemService } from '../services/ItemService'
 import { RequestWithUser } from '../types'
 
 export class ItemController {
-	async currentUserIndex(req: RequestWithUser, res: Response) {
+	async userIndex(req: RequestWithUser, res: Response) {
+		const { userId } = req.params
+
 		const itemService = new ItemService()
 
-		const items = await itemService.findAllByUserId(Number(req.user.id))
+		const items = await itemService.findAllByUserId(Number(userId))
 
 		res.json(items)
 	}

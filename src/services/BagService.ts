@@ -6,10 +6,11 @@ export class BagService {
 	private bagRepository = getRepository(Bag)
 
 	async findAll() {
-		return this.bagRepository.find()
+		return this.bagRepository.find({ relations: ['bagItems'] })
 	}
+
 	async findOne(id: number) {
-		return this.bagRepository.findOne(id)
+		return this.bagRepository.findOne(id, { relations: ['bagItems'] })
 	}
 
 	async create(attributes: Partial<Bag>, user: User) {
