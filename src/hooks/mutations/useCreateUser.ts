@@ -1,6 +1,6 @@
 import { useMutation, UseMutationOptions } from 'react-query'
-import { CreateUserPayload, LoginCredentials, User } from '../../types'
 import { postUser } from '../../api/users'
+import { CreateUserPayload, User } from '../../types'
 
 export default function useCreateUser(
 	options?: UseMutationOptions<User, unknown, CreateUserPayload>,

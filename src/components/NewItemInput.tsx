@@ -1,12 +1,9 @@
 import { IconButton, InputAdornment, TextField } from '@material-ui/core'
-import { useState } from 'react'
 import AddIcon from '@material-ui/icons/Add'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import axios from 'axios'
-import useCurrentUser from '../hooks/queries/useCurrentUser'
+import { useState } from 'react'
+import { useQueryClient } from 'react-query'
 import useCreateItem from '../hooks/mutations/useCreateItem'
-import { Item } from '../types'
-import { postItem } from '../api/items'
+import useCurrentUser from '../hooks/queries/useCurrentUser'
 
 export default function NewItemInput() {
 	const [name, setName] = useState('')

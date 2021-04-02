@@ -1,13 +1,11 @@
 import { Button, Container, makeStyles, TextField } from '@material-ui/core'
-import axios from 'axios'
+import { convertToRaw } from 'draft-js'
 import MUIRichTextEditor from 'mui-rte'
 import { FormEvent, useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router'
-import { Bag } from '../types'
-import { convertToRaw } from 'draft-js'
-import useBag from '../hooks/queries/useBag'
 import useUpdateBag from '../hooks/mutations/useUpdateBag'
+import useBag from '../hooks/queries/useBag'
+import { Bag } from '../types'
 
 const enabledControls = [
 	'title',

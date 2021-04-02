@@ -6,8 +6,8 @@ import {
 	makeStyles,
 	Typography,
 } from '@material-ui/core'
-import BagCard from '../components/BagCard'
 import { Link as RouterLink } from 'react-router-dom'
+import BagCard from '../components/BagCard'
 import useBags from '../hooks/queries/useBags'
 
 const useStyles = makeStyles((theme) => ({

@@ -7,11 +7,10 @@ import {
 	CardMedia,
 	IconButton,
 	makeStyles,
-	Typography,
+	Typography
 } from '@material-ui/core'
-import React from 'react'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
-import { FavoriteBorder } from '@material-ui/icons'
+import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
 	card: {

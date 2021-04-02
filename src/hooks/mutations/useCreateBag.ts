@@ -1,10 +1,5 @@
-import {
-	useMutation,
-	UseMutationOptions,
-	useQuery,
-	UseQueryOptions,
-} from 'react-query'
-import { getBag, postBag } from '../../api/bags'
+import { useMutation, UseMutationOptions } from 'react-query'
+import { postBag } from '../../api/bags'
 import { Bag } from '../../types'
 
 export default function useCreateBag(

@@ -5,12 +5,10 @@ import {
 	TextField,
 	Typography,
 } from '@material-ui/core'
-import axios from 'axios'
 import { FormEvent, useState } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
 import { useHistory } from 'react-router'
-import { Bag } from '../types'
 import useCreateBag from '../hooks/mutations/useCreateBag'
+import { Bag } from '../types'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {

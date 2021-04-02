@@ -1,16 +1,15 @@
 import {
 	Box,
 	Button,
-	Toolbar,
-	Typography,
 	Link,
 	makeStyles,
+	Toolbar,
+	Typography,
 } from '@material-ui/core'
-import axios from 'axios'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useQueryClient } from 'react-query'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
-import useCurrentUser from '../hooks/queries/useCurrentUser'
 import useDeleteSession from '../hooks/mutations/useDeleteSession'
+import useCurrentUser from '../hooks/queries/useCurrentUser'
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: {
