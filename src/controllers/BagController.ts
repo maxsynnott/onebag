@@ -28,8 +28,7 @@ export class BagController {
 		const bagService = new BagService()
 
 		const attributes = req.body
-		let bag = await bagService.findOne(id)
-		bag = await bagService.update(bag, attributes)
+		const bag = await bagService.update(id, attributes)
 
 		res.json(bag)
 	}

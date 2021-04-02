@@ -5,7 +5,7 @@ export class BagService {
 	private bagRepository = getRepository(Bag)
 
 	async findAll() {
-		return this.bagRepository.find()
+		return this.bagRepository.find({ relations: ['images'] })
 	}
 
 	async findOne(id: string) {
@@ -19,9 +19,9 @@ export class BagService {
 		return this.bagRepository.save(bag)
 	}
 
-	async update(bag: Bag, attributes: Partial<Bag>) {
-		const updatedBag = Object.assign(bag, attributes)
+	async update(id: string, attributes: Partial<Bag>) {
+		const editedBag = { ...attributes, id }
 
-		return this.bagRepository.save(updatedBag)
+		return this.bagRepository.save(editedBag)
 	}
 }

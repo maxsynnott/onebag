@@ -13,3 +13,8 @@ interface RouteDefinition {
 	method: string
 	handlers: RequestHandler[]
 }
+
+export interface ImageResponse {
+	id: string
+	url: string
+}

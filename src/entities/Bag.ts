@@ -1,11 +1,14 @@
 import {
-	Entity,
-	PrimaryGeneratedColumn,
 	Column,
+	Entity,
+	JoinTable,
+	ManyToMany,
 	ManyToOne,
 	OneToMany,
+	PrimaryGeneratedColumn,
 } from 'typeorm'
 import { BagItem } from './BagItem'
+import { Image } from './Image'
 import { User } from './User'
 
 @Entity()
@@ -24,4 +27,8 @@ export class Bag {
 
 	@OneToMany(() => BagItem, (bagItem) => bagItem.bag)
 	bagItems: BagItem[]
+
+	@ManyToMany(() => Image, (image) => image.bags)
+	@JoinTable()
+	images: Image[]
 }
