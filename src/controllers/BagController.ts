@@ -28,7 +28,7 @@ export class BagController {
 		const bagService = new BagService()
 
 		const attributes = req.body
-		let bag = await bagService.findOne(Number(id))
+		let bag = await bagService.findOne(id)
 		bag = await bagService.update(bag, attributes)
 
 		res.json(bag)
@@ -39,7 +39,7 @@ export class BagController {
 
 		const bagService = new BagService()
 
-		const bag = await bagService.findOne(Number(id))
+		const bag = await bagService.findOne(id)
 
 		res.json(bag)
 	}

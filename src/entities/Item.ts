@@ -11,8 +11,8 @@ import { User } from './User'
 
 @Entity()
 export class Item {
-	@PrimaryGeneratedColumn()
-	id: number
+	@PrimaryGeneratedColumn('uuid')
+	id: string
 
 	@Column()
 	name: string

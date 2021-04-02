@@ -9,7 +9,7 @@ export class BagService {
 		return this.bagRepository.find({ relations: ['bagItems'] })
 	}
 
-	async findOne(id: number) {
+	async findOne(id: string) {
 		return this.bagRepository.findOne(id, { relations: ['bagItems'] })
 	}
 

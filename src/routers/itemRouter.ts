@@ -21,10 +21,10 @@ const routes: RoutesObject = {
 			handlers: [ensureAuthenticated, controller.delete],
 		},
 	],
-	'/users/current/items': [
+	'/users/:userId/items': [
 		{
 			method: 'get',
-			handlers: [ensureAuthenticated, controller.currentUserIndex],
+			handlers: [controller.userIndex],
 		},
 	],
 }

@@ -4,8 +4,8 @@ import { Item } from './Item'
 
 @Entity()
 export class BagItem {
-	@PrimaryGeneratedColumn()
-	id: number
+	@PrimaryGeneratedColumn('uuid')
+	id: string
 
 	@Column({ default: '' })
 	comment: string

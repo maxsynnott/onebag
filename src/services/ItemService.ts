@@ -4,11 +4,11 @@ import { Item } from '../entities/Item'
 export class ItemService {
 	private itemRepository = getRepository(Item)
 
-	async findOne(id: number) {
+	async findOne(id: string) {
 		return this.itemRepository.findOne(id)
 	}
 
-	async findAllByUserId(id: number) {
+	async findAllByUserId(id: string) {
 		return this.itemRepository.find({ user: { id } })
 	}
 
@@ -19,7 +19,7 @@ export class ItemService {
 		return this.itemRepository.save(item)
 	}
 
-	async deleteById(id: number) {
+	async deleteById(id: string) {
 		return this.itemRepository.delete(id)
 	}
 }

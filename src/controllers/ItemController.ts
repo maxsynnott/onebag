@@ -8,7 +8,7 @@ export class ItemController {
 
 		const itemService = new ItemService()
 
-		const items = await itemService.findAllByUserId(Number(userId))
+		const items = await itemService.findAllByUserId(userId)
 
 		res.json(items)
 	}
@@ -26,7 +26,7 @@ export class ItemController {
 
 		const itemService = new ItemService()
 
-		await itemService.deleteById(Number(id))
+		await itemService.deleteById(id)
 
 		res.sendStatus(204)
 	}
