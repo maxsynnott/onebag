@@ -61,21 +61,21 @@ export default function BagsEditPage() {
 		enabled,
 	})
 
-	const { mutate: patchBag } = useUpdateBag(id, {
+	const { mutate: updateBag } = useUpdateBag(id, {
 		onSuccess: () => {
 			refetch()
 		},
 	})
 
-	const handlePatchBag = (e: FormEvent) => {
+	const handleUpdateBag = (e: FormEvent) => {
 		e.preventDefault()
-		patchBag({ name, description })
+		updateBag({ name, description })
 	}
 
 	return (
 		<Container component="main" maxWidth="md">
 			<div className={classes.paper}>
-				<form className={classes.form} onSubmit={handlePatchBag}>
+				<form className={classes.form} onSubmit={handleUpdateBag}>
 					<TextField
 						variant="outlined"
 						margin="normal"

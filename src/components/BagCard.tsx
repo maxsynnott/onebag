@@ -7,10 +7,11 @@ import {
 	CardMedia,
 	IconButton,
 	makeStyles,
-	Typography
+	Typography,
 } from '@material-ui/core'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -57,7 +58,12 @@ export default function BagCard({ bag }: BagCardProps) {
 				</Box>
 			</CardContent>
 			<CardActions className={classes.cardActions}>
-				<Button size="small" color="primary">
+				<Button
+					component={RouterLink}
+					to={`/bags/${bag.id}`}
+					size="small"
+					color="primary"
+				>
 					View
 				</Button>
 

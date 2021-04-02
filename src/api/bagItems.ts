@@ -18,3 +18,9 @@ export const postBagItem = async (
 	})
 	return data
 }
+
+export const deleteBagItem = async (bagId: string, id: string) => {
+	const endpoint = `/bags/${bagId}/bagItems/${id}`
+	const { data } = await axios.delete(endpoint, { withCredentials: true })
+	return data
+}
