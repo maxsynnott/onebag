@@ -3,20 +3,13 @@ import { useState } from 'react'
 import AddIcon from '@material-ui/icons/Add'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
+import useCurrentUser from '../hooks/queries/useCurrentUser'
 
 export default function NewItemInput() {
 	const [name, setName] = useState('')
 	const queryClient = useQueryClient()
 
-	const { data: currentUser } = useQuery('current-user', async () => {
-		const response = await axios.get(
-			'http://localhost:8080/users/current',
-			{
-				withCredentials: true,
-			},
-		)
-		return response.data
-	})
+	const { data: currentUser } = useCurrentUser()
 
 	const { mutate: createItem } = useMutation(
 		async () => {

@@ -3,14 +3,12 @@ import {
 	Button,
 	Container,
 	Grid,
-	Link,
 	makeStyles,
 	Typography,
 } from '@material-ui/core'
-import axios from 'axios'
-import { useQuery } from 'react-query'
 import BagCard from '../components/BagCard'
 import { Link as RouterLink } from 'react-router-dom'
+import useBags from '../hooks/queries/useBags'
 
 const useStyles = makeStyles((theme) => ({
 	cardGrid: {
@@ -30,15 +28,10 @@ const useStyles = makeStyles((theme) => ({
 export default function BagsIndexPage() {
 	const classes = useStyles()
 
-	const url = 'http://localhost:8080/bags'
-
-	const { isLoading, error, data: bags } = useQuery('bags', async () => {
-		const response = await axios.get(url)
-		return response.data
-	})
+	const { data: bags, isLoading, error } = useBags()
 
 	if (isLoading) return <p>Loading...</p>
-	if (error) return <p>Error...</p>
+	if (error || !bags) return <p>Error...</p>
 
 	return (
 		<Container className={classes.cardGrid}>
@@ -71,7 +64,7 @@ export default function BagsIndexPage() {
 
 			<Box mt={1}>
 				<Grid container spacing={4}>
-					{bags.map((bag: any) => (
+					{bags?.map((bag: any) => (
 						<Grid item key={bag.id} xs={12} sm={6} md={3}>
 							<BagCard bag={bag} />
 						</Grid>

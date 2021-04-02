@@ -6,6 +6,7 @@ import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router'
 import { Bag } from '../types'
 import { convertToRaw } from 'draft-js'
+import useBag from '../hooks/queries/useBag'
 
 const enabledControls = [
 	'title',
@@ -52,21 +53,14 @@ export default function BagsEditPage() {
 	const [description, setDescription] = useState('')
 
 	const [enabled, setEnabled] = useState(true)
-	const { isLoading, error, data: bag, refetch } = useQuery(
-		'bags',
-		async () => {
-			const response = await axios.get(`http://localhost:8080/bags/${id}`)
-			return response.data
+	const { data: bag, isLoading, error, refetch } = useBag(id, {
+		onSuccess: (bag: Bag) => {
+			setName(bag.name)
+			setDescription(bag.description)
+			setEnabled(false)
 		},
-		{
-			onSuccess: (bag: Bag) => {
-				setName(bag.name)
-				setDescription(bag.description)
-				setEnabled(false)
-			},
-			enabled,
-		},
-	)
+		enabled,
+	})
 
 	const { mutate: patchBag } = useMutation(
 		async () => {

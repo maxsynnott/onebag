@@ -10,6 +10,7 @@ import {
 import axios from 'axios'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
+import useCurrentUser from '../hooks/queries/useCurrentUser'
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: {
@@ -21,15 +22,7 @@ export default function Header() {
 	const classes = useStyles()
 	const queryClient = useQueryClient()
 
-	const { data: currentUser } = useQuery('current-user', async () => {
-		const response = await axios.get(
-			'http://localhost:8080/users/current',
-			{
-				withCredentials: true,
-			},
-		)
-		return response.data
-	})
+	const { data: currentUser } = useCurrentUser()
 
 	const { mutate: deleteSession } = useMutation(
 		async () => {
