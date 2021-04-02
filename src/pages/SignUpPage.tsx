@@ -8,9 +8,10 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { Link as RouterLink, useHistory } from 'react-router-dom'
-import axios from 'axios'
-import { useMutation, useQueryClient } from 'react-query'
+import { useQueryClient } from 'react-query'
 import { useState } from 'react'
+import useCreateSession from '../hooks/mutations/useCreateSession'
+import useCreateUser from '../hooks/mutations/useCreateUser'
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -41,36 +42,25 @@ export default function SignUpPage() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
-	const { mutate: createSession } = useMutation(
-		async () => {
-			const response = await axios.post(
-				'http://localhost:8080/sessions',
-				{ email, password },
-				{ withCredentials: true },
-			)
-			return response.data
+	const { mutate: createSession } = useCreateSession({
+		onSuccess: () => {
+			queryClient.invalidateQueries(['users', 'current'])
+			history.push('/')
 		},
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries('current-user')
-				history.push('/')
-			},
-		},
-	)
-
-	const { mutate: createUser } = useMutation(async () => {
-		const response = await axios.post('http://localhost:8080/users', {
-			email,
-			password,
-			username,
-		})
-		return response.data
 	})
+
+	const { mutate: createUser } = useCreateUser()
 
 	const handleSubmit = async (event: any) => {
 		event.preventDefault()
-
-		await createUser(undefined, { onSuccess: () => createSession() })
+		await createUser(
+			{
+				email,
+				password,
+				username,
+			},
+			{ onSuccess: () => createSession({ email, password }) },
+		)
 	}
 
 	return (

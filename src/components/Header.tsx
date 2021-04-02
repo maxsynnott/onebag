@@ -1,4 +1,3 @@
-import classes from '*.module.css'
 import {
 	Box,
 	Button,
@@ -11,6 +10,7 @@ import axios from 'axios'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
+import useDeleteSession from '../hooks/mutations/useDeleteSession'
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: {
@@ -22,23 +22,14 @@ export default function Header() {
 	const classes = useStyles()
 	const queryClient = useQueryClient()
 
-	const { data: currentUser } = useCurrentUser()
+	const response = useCurrentUser({ retry: false })
+	const { data: currentUser, error: currentUserError } = response
 
-	const { mutate: deleteSession } = useMutation(
-		async () => {
-			const response = await axios.delete(
-				'http://localhost:8080/sessions',
-				{ withCredentials: true },
-			)
-			console.log(response)
-			return response.data
+	const { mutate: deleteSession } = useDeleteSession({
+		onSuccess: () => {
+			queryClient.invalidateQueries(['users', 'current'])
 		},
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries('current-user')
-			},
-		},
-	)
+	})
 
 	const handleLogout = () => {
 		deleteSession()
@@ -67,7 +58,7 @@ export default function Header() {
 			</Box>
 
 			<Box flexGrow={1} />
-			{currentUser ? (
+			{currentUser && !currentUserError ? (
 				<>
 					<Typography>{currentUser.email}</Typography>
 					<Button color="inherit" onClick={handleLogout}>

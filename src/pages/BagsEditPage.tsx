@@ -7,6 +7,7 @@ import { useParams } from 'react-router'
 import { Bag } from '../types'
 import { convertToRaw } from 'draft-js'
 import useBag from '../hooks/queries/useBag'
+import useUpdateBag from '../hooks/mutations/useUpdateBag'
 
 const enabledControls = [
 	'title',
@@ -62,25 +63,15 @@ export default function BagsEditPage() {
 		enabled,
 	})
 
-	const { mutate: patchBag } = useMutation(
-		async () => {
-			const response = await axios.patch(
-				`http://localhost:8080/bags/${id}`,
-				{ name, description },
-				{ withCredentials: true },
-			)
-			return response.data
+	const { mutate: patchBag } = useUpdateBag(id, {
+		onSuccess: () => {
+			refetch()
 		},
-		{
-			onSuccess: () => {
-				refetch()
-			},
-		},
-	)
+	})
 
 	const handlePatchBag = (e: FormEvent) => {
 		e.preventDefault()
-		patchBag()
+		patchBag({ name, description })
 	}
 
 	return (

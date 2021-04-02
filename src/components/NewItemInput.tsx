@@ -4,34 +4,26 @@ import AddIcon from '@material-ui/icons/Add'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
+import useCreateItem from '../hooks/mutations/useCreateItem'
+import { Item } from '../types'
+import { postItem } from '../api/items'
 
 export default function NewItemInput() {
 	const [name, setName] = useState('')
 	const queryClient = useQueryClient()
 
 	const { data: currentUser } = useCurrentUser()
-
-	const { mutate: createItem } = useMutation(
-		async () => {
-			const response = await axios.post(
-				'http://localhost:8080/items',
-				{ name, user: { id: currentUser?.id } },
-				{ withCredentials: true },
-			)
-			return response.data
+	const { mutate: createItem } = useCreateItem({
+		onSuccess: () => {
+			queryClient.invalidateQueries([
+				'items',
+				{ userId: currentUser?.id },
+			])
 		},
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries([
-					'items',
-					{ userId: currentUser?.id },
-				])
-			},
-		},
-	)
+	})
 
 	const handleCreateItem = () => {
-		createItem()
+		createItem({ name })
 	}
 
 	return (

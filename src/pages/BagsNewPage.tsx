@@ -10,6 +10,7 @@ import { FormEvent, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { useHistory } from 'react-router'
 import { Bag } from '../types'
+import useCreateBag from '../hooks/mutations/useCreateBag'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -32,25 +33,15 @@ export default function BagsNewPage() {
 	const [name, setName] = useState('')
 	const history = useHistory()
 
-	const { mutate: createBag } = useMutation(
-		async () => {
-			const response = await axios.post(
-				'http://localhost:8080/bags',
-				{ name },
-				{ withCredentials: true },
-			)
-			return response.data
+	const { mutate: createBag } = useCreateBag({
+		onSuccess: (bag: Bag) => {
+			history.push(`/bags/${bag.id}/edit`)
 		},
-		{
-			onSuccess: (bag: Bag) => {
-				history.push(`/bags/${bag.id}/edit`)
-			},
-		},
-	)
+	})
 
 	const handleCreateBag = (e: FormEvent) => {
 		e.preventDefault()
-		createBag()
+		createBag({ name })
 	}
 
 	return (

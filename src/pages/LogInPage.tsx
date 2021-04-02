@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 import { useHistory } from 'react-router'
 import { Link as RouterLink } from 'react-router-dom'
+import useCreateSession from '../hooks/mutations/useCreateSession'
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -42,27 +43,17 @@ export default function LogInPage() {
 
 	const history = useHistory()
 
-	const { mutate: createSession } = useMutation(
-		async () => {
-			const response = await axios.post(
-				'http://localhost:8080/sessions',
-				{ email, password },
-				{ withCredentials: true },
-			)
-			return response.data
+	const { mutate: createSession } = useCreateSession({
+		onSuccess: () => {
+			queryClient.invalidateQueries(['users', 'current'])
+			history.push('/')
 		},
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries('current-user')
-				history.push('/')
-			},
-		},
-	)
+	})
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault()
 
-		createSession()
+		createSession({ email, password })
 	}
 
 	return (

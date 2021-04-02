@@ -13,3 +13,12 @@ export interface User {
 export interface Item {
 	name: string
 }
+
+export interface LoginCredentials {
+	email: string
+	password: string
+}
+
+export interface CreateUserPayload extends Partial<User> {
+	password: string
+}
