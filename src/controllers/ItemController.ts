@@ -1,15 +1,14 @@
-import { Response } from 'express'
+import { NextFunction, Response } from 'express'
 import { ItemService } from '../services/ItemService'
 import { RequestWithUser } from '../types'
 
 export class ItemController {
-	async userIndex(req: RequestWithUser, res: Response) {
+	async userIndex(req: RequestWithUser, res: Response, next: NextFunction) {
 		const { userId } = req.params
 
 		const itemService = new ItemService()
 
 		const items = await itemService.findAllByUserId(userId)
-
 		res.json(items)
 	}
 

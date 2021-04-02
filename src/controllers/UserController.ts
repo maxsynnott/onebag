@@ -11,7 +11,7 @@ export class UserController {
 	}
 
 	async current(req: RequestWithUser, res: Response) {
-		if (!req.user) return res.json(null)
+		if (!req.user) return res.sendStatus(404)
 
 		const { passwordHash, ...filteredUser } = req.user
 		res.json(filteredUser)

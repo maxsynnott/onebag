@@ -14,9 +14,9 @@ export class BagController {
 	async create(req: RequestWithUser, res: Response) {
 		const bagService = new BagService()
 
-		const attributes = req.body
-		const user = req.user
-		const bag = await bagService.create(attributes, user)
+		const relations = { user: req.user }
+		const attributes = { ...req.body, ...relations }
+		const bag = await bagService.create(attributes)
 
 		res.json(bag)
 	}

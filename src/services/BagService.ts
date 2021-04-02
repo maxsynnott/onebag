@@ -1,21 +1,20 @@
 import { getRepository } from 'typeorm'
 import { Bag } from '../entities/Bag'
-import { User } from '../entities/User'
 
 export class BagService {
 	private bagRepository = getRepository(Bag)
 
 	async findAll() {
-		return this.bagRepository.find({ relations: ['bagItems'] })
+		return this.bagRepository.find()
 	}
 
 	async findOne(id: string) {
-		return this.bagRepository.findOne(id, { relations: ['bagItems'] })
+		return this.bagRepository.findOne(id)
 	}
 
-	async create(attributes: Partial<Bag>, user: User) {
+	async create(attributes: Partial<Bag>) {
 		const bag = new Bag()
-		Object.assign(bag, attributes, { user })
+		Object.assign(bag, attributes)
 
 		return this.bagRepository.save(bag)
 	}

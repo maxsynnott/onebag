@@ -1,24 +1,19 @@
 import { Router } from 'express'
-import { UserController } from '../controllers/UserController'
+import { BagItemController } from '../controllers/BagItemController'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 import { RoutesObject } from '../types'
 import applyRoutes from './applyRoutes'
 
-const controller = new UserController()
+const controller = new BagItemController()
 
 const router = Router()
 
 const routes: RoutesObject = {
-	'/users': [
+	'/bags/:bagId/bagItems': [
+		{ method: 'get', handlers: [controller.index] },
 		{
 			method: 'post',
-			handlers: [controller.create],
-		},
-	],
-	'/users/current': [
-		{
-			method: 'get',
-			handlers: [ensureAuthenticated, controller.current],
+			handlers: [ensureAuthenticated, controller.create],
 		},
 	],
 }
