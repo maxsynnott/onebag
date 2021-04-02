@@ -4,10 +4,22 @@ import { Item } from '../entities/Item'
 export class ItemService {
 	private itemRepository = getRepository(Item)
 
+	async findOne(id: number) {
+		return this.itemRepository.findOne(id)
+	}
+
+	async findAllByUserId(id: number) {
+		return this.itemRepository.find({ user: { id } })
+	}
+
 	async create(attributes: Partial<Item>) {
 		const item = new Item()
 		Object.assign(item, attributes)
 
 		return this.itemRepository.save(item)
+	}
+
+	async deleteById(id: number) {
+		return this.itemRepository.delete(id)
 	}
 }
