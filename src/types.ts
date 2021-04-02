@@ -21,6 +21,11 @@ export interface BagItem {
 	quantity: number
 }
 
+export interface Image {
+	id: string
+	url: string
+}
+
 export interface BagItemPostRequestPayload extends BagItem {
 	item: Partial<Item>
 }

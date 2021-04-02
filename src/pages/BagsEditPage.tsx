@@ -52,7 +52,8 @@ export default function BagsEditPage() {
 	const [description, setDescription] = useState('')
 
 	const [enabled, setEnabled] = useState(true)
-	const { data: bag, isLoading, error, refetch } = useBag(id, {
+	// Clean this shit up
+	const { refetch } = useBag(id, {
 		onSuccess: (bag: Bag) => {
 			setName(bag.name)
 			setDescription(bag.description)

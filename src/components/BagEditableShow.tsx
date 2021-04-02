@@ -3,6 +3,7 @@ import React, { FormEvent, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import BagItemListItem from '../components/BagItemListItem'
 import useCreateBagItem from '../hooks/mutations/useCreateBagItem'
+import useBagImages from '../hooks/queries/useBagImages'
 import useBagItems from '../hooks/queries/useBagItems'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
 import useUserItems from '../hooks/queries/useUserItems'
@@ -22,6 +23,7 @@ export default function BagEditableShow({ bag }: BagEditableShowProps) {
 	const { data: currentUser } = useCurrentUser()
 	const { data: items } = useUserItems(currentUser?.id)
 	const { data: bagItems } = useBagItems(bag.id)
+	const { data: images } = useBagImages(bag.id)
 
 	const { mutate: createBagItem } = useCreateBagItem(bag.id, {
 		onSuccess: () => {
@@ -37,6 +39,9 @@ export default function BagEditableShow({ bag }: BagEditableShowProps) {
 
 	return (
 		<div>
+			{images?.map((image) => (
+				<img src={image.url} />
+			))}
 			<p>Editable: {JSON.stringify(bag)}</p>
 			<ul>
 				{bagItems?.map((bagItem) => (

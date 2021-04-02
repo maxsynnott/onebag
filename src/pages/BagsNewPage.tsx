@@ -33,7 +33,7 @@ export default function BagsNewPage() {
 
 	const { mutate: createBag } = useCreateBag({
 		onSuccess: (bag: Bag) => {
-			history.push(`/bags/${bag.id}/edit`)
+			history.push(`/bags/${bag.id}`)
 		},
 	})
 

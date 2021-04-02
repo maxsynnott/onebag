@@ -6,7 +6,7 @@ export default function useUserItems(
 	userId?: string,
 	options?: UseQueryOptions<Item[]>,
 ) {
-	const queryKey = ['items', { userId }]
+	const queryKey = ['users', userId, 'items']
 
 	return useQuery(queryKey, () => getUserItems(userId), options)
 }
