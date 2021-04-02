@@ -6,6 +6,7 @@ import LogInPage from '../pages/LogInPage'
 import SignUpPage from '../pages/SignUpPage'
 import BagsNewPage from '../pages/BagsNewPage'
 import BagsEditPage from '../pages/BagsEditPage'
+import ItemsIndexPage from '../pages/ItemsIndexPage'
 
 export default function AppRoutes() {
 	return (
@@ -13,6 +14,7 @@ export default function AppRoutes() {
 			<Route path="/" exact={true} component={HomePage} />
 			<Route path="/login" exact={true} component={LogInPage} />
 			<Route path="/signup" exact={true} component={SignUpPage} />
+			<Route path="/items" exact={true} component={ItemsIndexPage} />
 			<Route path="/bags" exact={true} component={BagsIndexPage} />
 			<Route path="/bags/new" exact={true} component={BagsNewPage} />
 			<Route path="/bags/:id/edit" component={BagsEditPage} />

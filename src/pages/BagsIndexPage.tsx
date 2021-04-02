@@ -9,9 +9,7 @@ import {
 } from '@material-ui/core'
 import axios from 'axios'
 import { useQuery } from 'react-query'
-import NewBagInput from '../components/NewBagInput'
 import BagCard from '../components/BagCard'
-import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
