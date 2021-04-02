@@ -1,11 +1,11 @@
-import { getRepository } from 'typeorm'
+import { FindConditions, getRepository } from 'typeorm'
 import { BagItem } from '../entities/BagItem'
 
 export class BagItemService {
 	private bagItemRepository = getRepository(BagItem)
 
-	async findAllByBagId(id: string) {
-		return this.bagItemRepository.find({ bag: { id } })
+	async findAllByBagId(bagId: string) {
+		return this.bagItemRepository.find({ bag: { id: bagId } })
 	}
 
 	async create(attributes: Partial<BagItem>) {
@@ -13,5 +13,9 @@ export class BagItemService {
 		Object.assign(bagItem, attributes)
 
 		return this.bagItemRepository.save(bagItem)
+	}
+
+	async deleteByFindConditions(findConditions: FindConditions<BagItem>) {
+		return this.bagItemRepository.delete(findConditions)
 	}
 }

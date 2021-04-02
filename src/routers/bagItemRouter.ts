@@ -16,6 +16,12 @@ const routes: RoutesObject = {
 			handlers: [ensureAuthenticated, controller.create],
 		},
 	],
+	'/bags/:bagId/bagItems/:id': [
+		{
+			method: 'delete',
+			handlers: [ensureAuthenticated, controller.delete],
+		},
+	],
 }
 
 applyRoutes(router, routes)

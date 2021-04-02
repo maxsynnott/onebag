@@ -24,4 +24,14 @@ export class BagItemController {
 
 		res.json(bagItem)
 	}
+
+	async delete(req: RequestWithUser, res: Response) {
+		const { bagId, id } = req.params
+
+		const bagItemService = new BagItemService()
+
+		await bagItemService.deleteByFindConditions({ id, bag: { id: bagId } })
+
+		res.sendStatus(204)
+	}
 }
