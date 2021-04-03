@@ -4,12 +4,12 @@ import { Link as RouterLink, useLocation } from 'react-router-dom'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
 import UserDrawer from './UserDrawer'
 
-export const headerHeight = 64
+export const HEADER_HEIGHT = 64
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: {
 		borderBottom: `1px solid ${theme.palette.divider}`,
-		height: headerHeight,
+		height: HEADER_HEIGHT,
 	},
 }))
 
