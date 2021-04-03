@@ -7,6 +7,7 @@ import SignUpPage from '../pages/SignUpPage'
 import BagsNewPage from '../pages/BagsNewPage'
 import BagsEditPage from '../pages/BagsEditPage'
 import ItemsIndexPage from '../pages/ItemsIndexPage'
+import MyBagsPage from '../pages/MyBagsPage'
 
 export default function AppRoutes() {
 	return (
@@ -19,6 +20,7 @@ export default function AppRoutes() {
 			<Route path="/bags/new" exact={true} component={BagsNewPage} />
 			<Route path="/bags/:id/edit" component={BagsEditPage} />
 			<Route path="/bags/:id" component={BagsShowPage} />
+			<Route path="/my/bags" exact={true} component={MyBagsPage} />
 		</Switch>
 	)
 }
