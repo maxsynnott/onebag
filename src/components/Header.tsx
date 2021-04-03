@@ -1,23 +1,40 @@
 import {
+	Avatar,
 	Box,
 	Button,
+	Divider,
+	Drawer,
 	Link,
+	List,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
 	makeStyles,
 	Toolbar,
 	Typography,
 } from '@material-ui/core'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import md5 from 'md5'
+import React, { useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 import useDeleteSession from '../hooks/mutations/useDeleteSession'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
 
+const drawerListWidth = 400
+
 const useStyles = makeStyles((theme) => ({
 	toolbar: {
 		borderBottom: `1px solid ${theme.palette.divider}`,
 	},
+	drawerList: {
+		width: drawerListWidth,
+	},
 }))
 
 export default function Header() {
+	const [drawerOpen, setDrawerOpen] = useState(false)
+
 	const classes = useStyles()
 	const queryClient = useQueryClient()
 
@@ -30,8 +47,19 @@ export default function Header() {
 		},
 	})
 
+	const emailToGravatarUrl = (email: string) => {
+		const emailHash = md5(email.trim().toLowerCase())
+		const defaultImg = 'retro'
+
+		return `https://www.gravatar.com/avatar/${emailHash}?d=${defaultImg}`
+	}
+
 	const handleLogout = () => {
 		deleteSession()
+	}
+
+	const handleToggleDrawer = () => {
+		setDrawerOpen(!drawerOpen)
 	}
 
 	const { pathname } = useLocation()
@@ -58,12 +86,31 @@ export default function Header() {
 
 			<Box flexGrow={1} />
 			{currentUser && !currentUserError ? (
-				<>
-					<Typography>{currentUser.email}</Typography>
-					<Button color="inherit" onClick={handleLogout}>
-						Log out
+				<Box>
+					<Button
+						aria-controls="account-menu"
+						aria-haspopup="true"
+						onClick={handleToggleDrawer}
+					>
+						<Avatar src={emailToGravatarUrl(currentUser.email)} />
 					</Button>
-				</>
+					<Drawer anchor="right" open={drawerOpen}>
+						<List className={classes.drawerList}>
+							<ListItem button onClick={handleToggleDrawer}>
+								<ListItemIcon>
+									<ChevronRightIcon />
+								</ListItemIcon>
+							</ListItem>
+							<Divider />
+							<ListItem button>
+								<ListItemText primary="Account" />
+							</ListItem>
+							<ListItem button onClick={handleLogout}>
+								<ListItemText primary="Log out" />
+							</ListItem>
+						</List>
+					</Drawer>
+				</Box>
 			) : (
 				<Link component={RouterLink} color="inherit" to="/login">
 					Log in
