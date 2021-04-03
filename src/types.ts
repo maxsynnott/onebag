@@ -2,6 +2,7 @@ export interface Bag {
 	id: string
 	name: string
 	description: string
+	favorited?: boolean
 }
 
 export interface User {

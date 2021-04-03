@@ -30,3 +30,19 @@ export const patchBag = async (id: string, attributes: Partial<Bag>) => {
 	})
 	return data
 }
+
+export const postFavoriteBag = async (id: string) => {
+	const endpoint = `/bags/${id}/favorite`
+	const { data } = await axios.post<Bag>(endpoint, null, {
+		withCredentials: true,
+	})
+	return data
+}
+
+export const deleteFavoriteBag = async (id: string) => {
+	const endpoint = `/bags/${id}/favorite`
+	const { data } = await axios.delete<Bag>(endpoint, {
+		withCredentials: true,
+	})
+	return data
+}
