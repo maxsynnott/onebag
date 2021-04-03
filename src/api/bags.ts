@@ -46,3 +46,9 @@ export const deleteFavoriteBag = async (id: string) => {
 	})
 	return data
 }
+
+export const getUserBags = async (userId?: string) => {
+	const endpoint = `/users/${userId}/bags`
+	const { data } = await axios.get<Bag[]>(endpoint)
+	return data
+}

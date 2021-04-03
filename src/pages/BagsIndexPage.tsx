@@ -1,28 +1,15 @@
-import {
-	Box,
-	Button,
-	Container,
-	Grid,
-	makeStyles,
-	Typography,
-} from '@material-ui/core'
+import { Box, Container, makeStyles } from '@material-ui/core'
 import React from 'react'
 import BagGrid from '../components/BagGrid'
+import HeroContent from '../components/HeroContent'
 import useBags from '../hooks/queries/useBags'
-import { Link as RouterLink } from 'react-router-dom'
+import useCurrentUser from '../hooks/queries/useCurrentUser'
+import useUserBags from '../hooks/queries/useUserBags'
 
 const useStyles = makeStyles((theme) => ({
 	cardGrid: {
-		paddingTop: theme.spacing(8),
+		paddingTop: theme.spacing(4),
 		paddingBottom: theme.spacing(8),
-	},
-	heroContent: {
-		backgroundColor: theme.palette.background.paper,
-		padding: theme.spacing(12, 0, 12),
-		'background-image': "url('https://source.unsplash.com/random')",
-	},
-	heroButtons: {
-		marginTop: theme.spacing(4),
 	},
 }))
 
@@ -30,38 +17,22 @@ export default function BagsIndexPage() {
 	const classes = useStyles()
 
 	const { data: bags, isLoading, error } = useBags()
+	const { data: currentUser } = useCurrentUser()
+	const { data: userBags } = useUserBags(currentUser?.id)
 
 	if (isLoading) return <p>Loading...</p>
 	if (error || !bags) return <p>Error...</p>
 
+	const showHeroContent = !currentUser || userBags?.length === 0
+
 	return (
 		<Container className={classes.cardGrid}>
-			<div className={classes.heroContent}>
-				<Container maxWidth="sm">
-					<Typography
-						component="h1"
-						variant="h2"
-						align="center"
-						gutterBottom
-					>
-						Join the club
-					</Typography>
-					<div className={classes.heroButtons}>
-						<Grid container spacing={2} justify="center">
-							<Grid item>
-								<Button
-									component={RouterLink}
-									variant="contained"
-									to="/bags/new"
-									color="primary"
-								>
-									Add your onebag
-								</Button>
-							</Grid>
-						</Grid>
-					</div>
-				</Container>
-			</div>
+			{showHeroContent && (
+				<HeroContent
+					title="Join the club"
+					button={{ text: 'Add your onebag', to: '/bags/new' }}
+				/>
+			)}
 
 			<Box mt={1}>
 				<BagGrid bags={bags} />
