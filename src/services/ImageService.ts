@@ -20,8 +20,7 @@ export class ImageService {
 	}
 
 	async findAllByBagId(bagId: string) {
-		const bag = await this.bagRepository.findOne({
-			where: { id: bagId },
+		const bag = await this.bagRepository.findOne(bagId, {
 			relations: ['images'],
 		})
 
@@ -29,8 +28,7 @@ export class ImageService {
 	}
 
 	async findAllByItemId(itemId: string) {
-		const item = await this.itemRepository.findOne({
-			where: { id: itemId },
+		const item = await this.itemRepository.findOne(itemId, {
 			relations: ['images'],
 		})
 

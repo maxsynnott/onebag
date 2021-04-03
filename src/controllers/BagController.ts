@@ -15,6 +15,20 @@ export class BagController {
 		res.json(responseBody)
 	}
 
+	async userIndex(req: ExtendedRequest, res: Response) {
+		const { userId } = req.params
+
+		const bagService = new BagService()
+
+		const bags = await bagService.findAllByUserId(userId)
+
+		const responseBody = await bagService.mapToResponseBody(
+			bags,
+			req.user?.id,
+		)
+		res.json(responseBody)
+	}
+
 	async create(req: ExtendedRequest, res: Response) {
 		const bagService = new BagService()
 

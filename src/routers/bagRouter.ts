@@ -39,6 +39,9 @@ const routes: RoutesObject = {
 			handlers: [ensureAuthenticated, controller.unfavorite],
 		},
 	],
+	'/users/:userId/bags': [
+		{ method: 'get', handlers: [controller.userIndex] },
+	],
 }
 
 applyRoutes(router, routes)

@@ -1,13 +1,23 @@
 import { getRepository } from 'typeorm'
 import { isArray } from 'util'
 import { Bag } from '../entities/Bag'
+import { User } from '../entities/User'
 import { BagFavoriteAttributes, BagResponse } from '../types'
 
 export class BagService {
 	private bagRepository = getRepository(Bag)
+	private userRepository = getRepository(User)
 
 	async findAll() {
 		return this.bagRepository.find()
+	}
+
+	async findAllByUserId(userId: string) {
+		const user = await this.userRepository.findOne(userId, {
+			relations: ['bags'],
+		})
+
+		return user.bags
 	}
 
 	async findOne(id: string) {
