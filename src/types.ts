@@ -19,9 +19,13 @@ export interface ImageResponse {
 	url: string
 }
 
-export interface BagResponse {
+export interface BagResponse extends BagFavoriteAttributes {
 	id: string
 	name: string
 	description: string
+}
+
+export interface BagFavoriteAttributes {
+	favoriteCount: number
 	favorited?: boolean
 }

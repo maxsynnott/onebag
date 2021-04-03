@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm'
 import { isArray } from 'util'
 import { Bag } from '../entities/Bag'
-import { BagResponse } from '../types'
+import { BagFavoriteAttributes, BagResponse } from '../types'
 
 export class BagService {
 	private bagRepository = getRepository(Bag)
@@ -47,20 +47,30 @@ export class BagService {
 		})
 	}
 
-	async isFavorited(id: string, userId: string): Promise<boolean> {
-		const bag = await this.bagRepository.findOne(id, {
+	async getFavoriteAttributes(
+		id: string,
+		userId?: string,
+	): Promise<BagFavoriteAttributes> {
+		const { favoriteUsers } = await this.bagRepository.findOne(id, {
 			relations: ['favoriteUsers'],
 		})
-		return bag.favoriteUsers.some(
+
+		const favoriteAttributes = { favoriteCount: favoriteUsers.length }
+		if (!userId) return favoriteAttributes
+
+		const favorited = favoriteUsers.some(
 			(favoriteUser) => favoriteUser.id === userId,
 		)
+		return { ...favoriteAttributes, favorited }
 	}
 
 	async mapBagToResponse(bag: Bag, userId?: string): Promise<BagResponse> {
-		if (!userId) return bag
+		const favoriteAttributes = await this.getFavoriteAttributes(
+			bag.id,
+			userId,
+		)
 
-		const favorited = await this.isFavorited(bag.id, userId)
-		return { ...bag, favorited }
+		return { ...bag, ...favoriteAttributes }
 	}
 
 	async mapToResponseBody(
