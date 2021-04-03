@@ -19,13 +19,25 @@ export interface ImageResponse {
 	url: string
 }
 
-export interface BagResponse extends BagFavoriteAttributes {
+export interface BagResponse extends BagResponseExtraAttributes {
 	id: string
 	name: string
 	description: string
 }
 
+interface BagResponseExtraAttributes extends BagFavoriteAttributes {}
+
 export interface BagFavoriteAttributes {
 	favoriteCount: number
 	favorited?: boolean
+}
+
+export interface UserResponse extends UserResponseExtraAttributes {
+	id: string
+	username: string
+	email: string
+}
+
+interface UserResponseExtraAttributes {
+	avatarUrl: string
 }

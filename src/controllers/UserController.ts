@@ -7,13 +7,17 @@ export class UserController {
 		const userService = new UserService()
 
 		const user = await userService.create(req.body)
-		res.json(user)
+
+		const responseBody = userService.mapToResponseBody(user)
+		res.json(responseBody)
 	}
 
 	async current(req: ExtendedRequest, res: Response) {
 		if (!req.user) return res.json(null)
 
-		const { passwordHash, ...filteredUser } = req.user
-		res.json(filteredUser)
+		const userService = new UserService()
+
+		const responseBody = userService.mapToResponseBody(req.user)
+		res.json(responseBody)
 	}
 }
