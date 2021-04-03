@@ -18,7 +18,7 @@ const routes: RoutesObject = {
 	'/users/current': [
 		{
 			method: 'get',
-			handlers: [ensureAuthenticated, controller.current],
+			handlers: [controller.current],
 		},
 	],
 }
