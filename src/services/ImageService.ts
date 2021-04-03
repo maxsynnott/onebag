@@ -1,4 +1,5 @@
 import { DeepPartial, getRepository } from 'typeorm'
+import { isArray } from 'util'
 import { Bag } from '../entities/Bag'
 import { Image } from '../entities/Image'
 import { Item } from '../entities/Item'
@@ -36,12 +37,14 @@ export class ImageService {
 		return item.images
 	}
 
-	mapImageToResponseBody(image: Image): ImageResponse {
+	imageToResponseMapper(image: Image): ImageResponse {
 		const { filename, ...filteredFields } = image
 		return { ...filteredFields, url: imageUrlPrefix + filename }
 	}
 
-	mapImagesToResponseBody(images: Image[]): ImageResponse[] {
-		return images.map(this.mapImageToResponseBody)
+	mapToResponseBody(input: Image | Image[]): ImageResponse | ImageResponse[] {
+		return isArray(input)
+			? input.map(this.imageToResponseMapper)
+			: this.imageToResponseMapper(input)
 	}
 }

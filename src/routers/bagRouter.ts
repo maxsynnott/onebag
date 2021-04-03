@@ -29,6 +29,16 @@ const routes: RoutesObject = {
 			handlers: [ensureAuthenticated, controller.update],
 		},
 	],
+	'/bags/:id/favorite': [
+		{
+			method: 'post',
+			handlers: [ensureAuthenticated, controller.favorite],
+		},
+		{
+			method: 'delete',
+			handlers: [ensureAuthenticated, controller.unfavorite],
+		},
+	],
 }
 
 applyRoutes(router, routes)

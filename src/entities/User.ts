@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import {
+	Column,
+	Entity,
+	JoinTable,
+	ManyToMany,
+	OneToMany,
+	PrimaryGeneratedColumn,
+} from 'typeorm'
 import { Bag } from './Bag'
 import { Item } from './Item'
 
@@ -18,6 +25,10 @@ export class User {
 
 	@OneToMany(() => Bag, (bag) => bag.user)
 	bags: Bag[]
+
+	@ManyToMany(() => Bag, (bag) => bag.favoriteUsers)
+	@JoinTable()
+	favoriteBags: Bag[]
 
 	@OneToMany(() => Item, (item) => item.user)
 	items: Item[]

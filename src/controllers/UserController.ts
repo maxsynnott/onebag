@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { UserService } from '../services/UserService'
-import { RequestWithUser } from '../types'
+import { ExtendedRequest } from '../types'
 
 export class UserController {
 	async create(req: Request, res: Response) {
@@ -10,7 +10,7 @@ export class UserController {
 		res.json(user)
 	}
 
-	async current(req: RequestWithUser, res: Response) {
+	async current(req: ExtendedRequest, res: Response) {
 		if (!req.user) return res.sendStatus(404)
 
 		const { passwordHash, ...filteredUser } = req.user

@@ -1,9 +1,9 @@
 import { NextFunction, Response } from 'express'
 import { ItemService } from '../services/ItemService'
-import { RequestWithUser } from '../types'
+import { ExtendedRequest } from '../types'
 
 export class ItemController {
-	async userIndex(req: RequestWithUser, res: Response, next: NextFunction) {
+	async userIndex(req: ExtendedRequest, res: Response, next: NextFunction) {
 		const { userId } = req.params
 
 		const itemService = new ItemService()
@@ -12,7 +12,7 @@ export class ItemController {
 		res.json(items)
 	}
 
-	async create(req: RequestWithUser, res: Response) {
+	async create(req: ExtendedRequest, res: Response) {
 		const itemService = new ItemService()
 		const attributes = { ...req.body, user: req.user }
 		const item = await itemService.create(attributes)
@@ -20,7 +20,7 @@ export class ItemController {
 		res.json(item)
 	}
 
-	async delete(req: RequestWithUser, res: Response) {
+	async delete(req: ExtendedRequest, res: Response) {
 		const { id } = req.params
 
 		const itemService = new ItemService()

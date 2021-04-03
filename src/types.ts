@@ -1,7 +1,7 @@
 import { Request, RequestHandler } from 'express'
 import { User } from './entities/User'
 
-export interface RequestWithUser extends Request {
+export interface ExtendedRequest extends Request {
 	user?: User
 }
 
@@ -17,4 +17,11 @@ interface RouteDefinition {
 export interface ImageResponse {
 	id: string
 	url: string
+}
+
+export interface BagResponse {
+	id: string
+	name: string
+	description: string
+	favorited?: boolean
 }

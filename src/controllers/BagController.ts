@@ -1,28 +1,36 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import { BagService } from '../services/BagService'
-import { RequestWithUser } from '../types'
+import { ExtendedRequest } from '../types'
 
 export class BagController {
-	async index(req: Request, res: Response) {
+	async index(req: ExtendedRequest, res: Response) {
 		const bagService = new BagService()
 
 		const bags = await bagService.findAll()
 
-		res.json(bags)
+		const responseBody = await bagService.mapToResponseBody(
+			bags,
+			req.user?.id,
+		)
+		res.json(responseBody)
 	}
 
-	async create(req: RequestWithUser, res: Response) {
+	async create(req: ExtendedRequest, res: Response) {
 		const bagService = new BagService()
 
 		const relations = { user: req.user }
 		const attributes = { ...req.body, ...relations }
 		const bag = await bagService.create(attributes)
 
-		res.json(bag)
+		const responseBody = await bagService.mapToResponseBody(
+			bag,
+			req.user?.id,
+		)
+		res.json(responseBody)
 	}
 
 	// TODO: Ensure user owns bag
-	async update(req: RequestWithUser, res: Response) {
+	async update(req: ExtendedRequest, res: Response) {
 		const { id } = req.params
 
 		const bagService = new BagService()
@@ -30,16 +38,54 @@ export class BagController {
 		const attributes = req.body
 		const bag = await bagService.update(id, attributes)
 
-		res.json(bag)
+		const responseBody = await bagService.mapToResponseBody(
+			bag,
+			req.user?.id,
+		)
+		res.json(responseBody)
 	}
 
-	async show(req: Request, res: Response) {
+	async show(req: ExtendedRequest, res: Response) {
 		const { id } = req.params
 
 		const bagService = new BagService()
 
 		const bag = await bagService.findOne(id)
 
-		res.json(bag)
+		const responseBody = await bagService.mapToResponseBody(
+			bag,
+			req.user?.id,
+		)
+		res.json(responseBody)
+	}
+
+	async favorite(req: ExtendedRequest, res: Response) {
+		const { id } = req.params
+		const { id: userId } = req.user
+
+		const bagService = new BagService()
+
+		const bag = await bagService.favorite(id, userId)
+
+		const responseBody = await bagService.mapToResponseBody(
+			bag,
+			req.user?.id,
+		)
+		res.json(responseBody)
+	}
+
+	async unfavorite(req: ExtendedRequest, res: Response) {
+		const { id } = req.params
+		const { id: userId } = req.user
+
+		const bagService = new BagService()
+
+		const bag = await bagService.unfavorite(id, userId)
+
+		const responseBody = await bagService.mapToResponseBody(
+			bag,
+			req.user?.id,
+		)
+		res.json(responseBody)
 	}
 }

@@ -31,4 +31,7 @@ export class Bag {
 	@ManyToMany(() => Image, (image) => image.bags)
 	@JoinTable()
 	images: Image[]
+
+	@ManyToMany(() => User, (user) => user.favoriteBags)
+	favoriteUsers: User[]
 }

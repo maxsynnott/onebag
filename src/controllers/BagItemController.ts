@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { BagItemService } from '../services/BagItemService'
-import { RequestWithUser } from '../types'
+import { ExtendedRequest } from '../types'
 
 export class BagItemController {
 	async index(req: Request, res: Response) {
@@ -13,7 +13,7 @@ export class BagItemController {
 		res.json(bagItems)
 	}
 
-	async create(req: RequestWithUser, res: Response) {
+	async create(req: ExtendedRequest, res: Response) {
 		const { bagId } = req.params
 
 		const bagItemService = new BagItemService()
@@ -25,7 +25,7 @@ export class BagItemController {
 		res.json(bagItem)
 	}
 
-	async delete(req: RequestWithUser, res: Response) {
+	async delete(req: ExtendedRequest, res: Response) {
 		const { bagId, id } = req.params
 
 		const bagItemService = new BagItemService()

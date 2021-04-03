@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ImageService } from '../services/ImageService'
-import { RequestWithUser } from '../types'
+import { ExtendedRequest } from '../types'
 
 export class ImageController {
 	async bagIndex(req: Request, res: Response) {
@@ -10,7 +10,7 @@ export class ImageController {
 
 		const images = await imageService.findAllByBagId(bagId)
 
-		const body = imageService.mapImagesToResponseBody(images)
+		const body = imageService.mapToResponseBody(images)
 		res.json(body)
 	}
 
@@ -21,11 +21,11 @@ export class ImageController {
 
 		const images = await imageService.findAllByItemId(itemId)
 
-		const body = imageService.mapImagesToResponseBody(images)
+		const body = imageService.mapToResponseBody(images)
 		res.json(body)
 	}
 
-	async createBagImage(req: RequestWithUser, res: Response) {
+	async createBagImage(req: ExtendedRequest, res: Response) {
 		const { bagId } = req.params
 		const { filename } = req.file
 
@@ -35,11 +35,11 @@ export class ImageController {
 		const attributes = { filename, ...relations }
 		const image = await imageService.create(attributes)
 
-		const body = imageService.mapImageToResponseBody(image)
+		const body = imageService.mapToResponseBody(image)
 		res.json(body)
 	}
 
-	async createItemImage(req: RequestWithUser, res: Response) {
+	async createItemImage(req: ExtendedRequest, res: Response) {
 		const { itemId } = req.params
 		const { filename } = req.file
 
@@ -49,7 +49,7 @@ export class ImageController {
 		const attributes = { filename, ...relations }
 		const image = await imageService.create(attributes)
 
-		const body = imageService.mapImageToResponseBody(image)
+		const body = imageService.mapToResponseBody(image)
 		res.json(body)
 	}
 }
