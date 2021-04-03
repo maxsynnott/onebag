@@ -5,17 +5,16 @@ import {
 	CardActions,
 	CardContent,
 	CardMedia,
-	IconButton,
 	makeStyles,
 	Typography,
 } from '@material-ui/core'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { Link as RouterLink } from 'react-router-dom'
 import useFavoriteBag from '../hooks/mutations/useFavoriteBag'
 import useUnfavoriteBag from '../hooks/mutations/useUnfavoriteBag'
+import { Bag } from '../types'
+import BagFavoriteButton from './BagFavoriteButton'
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface BagCardProps {
-	bag: any
+	bag: Bag
 }
 
 export default function BagCard({ bag }: BagCardProps) {
@@ -66,7 +65,7 @@ export default function BagCard({ bag }: BagCardProps) {
 			/>
 			<CardContent className={classes.cardContent}>
 				<Typography gutterBottom variant="h5" component="h2">
-					{bag.title}
+					{bag.name}
 				</Typography>
 				<Typography>
 					{bag.description ||
@@ -85,16 +84,11 @@ export default function BagCard({ bag }: BagCardProps) {
 				>
 					View
 				</Button>
-
-				{typeof bag.favorited === 'boolean' && bag.favorited ? (
-					<IconButton onClick={handleUnfavoriteBag}>
-						<FavoriteIcon color="secondary" />
-					</IconButton>
-				) : (
-					<IconButton onClick={handleFavoriteBag}>
-						<FavoriteBorderIcon color="secondary" />
-					</IconButton>
-				)}
+				<Box>
+					{typeof bag.favorited === 'boolean' && (
+						<BagFavoriteButton bag={bag} />
+					)}
+				</Box>
 			</CardActions>
 		</Card>
 	)
