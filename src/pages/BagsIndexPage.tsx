@@ -1,6 +1,6 @@
 import { Box, Container, makeStyles } from '@material-ui/core'
 import React from 'react'
-import BagGrid from '../components/BagGrid'
+import BagsGrid from '../components/BagsGrid'
 import HeroContent from '../components/HeroContent'
 import useBags from '../hooks/queries/useBags'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
@@ -35,7 +35,7 @@ export default function BagsIndexPage() {
 			)}
 
 			<Box mt={1}>
-				<BagGrid bags={bags} />
+				<BagsGrid bags={bags} />
 			</Box>
 		</Container>
 	)

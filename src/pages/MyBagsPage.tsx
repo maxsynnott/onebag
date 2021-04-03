@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container } from '@material-ui/core'
-import BagGrid from '../components/BagGrid'
+import BagsGrid from '../components/BagsGrid'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
 import useUserBags from '../hooks/queries/useUserBags'
 
@@ -11,7 +11,7 @@ export default function MyBagsPage() {
 	if (!bags) return null
 	return (
 		<Container>
-			<BagGrid bags={bags} />
+			<BagsGrid bags={bags} />
 		</Container>
 	)
 }

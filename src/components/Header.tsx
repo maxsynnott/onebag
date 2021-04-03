@@ -1,28 +1,8 @@
-import {
-	Avatar,
-	Box,
-	Button,
-	Divider,
-	Drawer,
-	Icon,
-	Link,
-	List,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
-	makeStyles,
-	Toolbar,
-	Typography,
-} from '@material-ui/core'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import md5 from 'md5'
-import React, { useState } from 'react'
-import { useQueryClient } from 'react-query'
+import { Box, Link, makeStyles, Toolbar, Typography } from '@material-ui/core'
+import React from 'react'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
-import useDeleteSession from '../hooks/mutations/useDeleteSession'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
-import { GiSwapBag } from 'react-icons/gi'
-import LoggedInUserButton from './LoggedInUserButton'
+import UserDrawer from './UserDrawer'
 
 export const headerHeight = 64
 
@@ -35,10 +15,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
 	const classes = useStyles()
-	const queryClient = useQueryClient()
 
 	const response = useCurrentUser({ retry: false })
-	const { data: currentUser, error: currentUserError } = response
+	const { data: currentUser } = response
 
 	const { pathname } = useLocation()
 	const hiddenPaths = ['/login', '/signup']
@@ -63,13 +42,8 @@ export default function Header() {
 			</Box>
 
 			<Box flexGrow={1} />
-			{currentUser && !currentUserError ? (
-				<LoggedInUserButton user={currentUser} />
-			) : (
-				<Link component={RouterLink} color="inherit" to="/login">
-					Log in
-				</Link>
-			)}
+
+			<UserDrawer user={currentUser} />
 		</Toolbar>
 	)
 }

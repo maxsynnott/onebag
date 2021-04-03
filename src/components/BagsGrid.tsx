@@ -2,11 +2,11 @@ import { Grid } from '@material-ui/core'
 import BagCard from '../components/BagCard'
 import { Bag } from '../types'
 
-interface BagGridProps {
+interface BagsGridProps {
 	bags: Bag[]
 }
 
-export default function BagGrid({ bags }: BagGridProps) {
+export default function BagsGrid({ bags }: BagsGridProps) {
 	return (
 		<Grid container spacing={4}>
 			{bags.map((bag: any) => (

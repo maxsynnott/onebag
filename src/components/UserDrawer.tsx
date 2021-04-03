@@ -2,13 +2,11 @@ import {
 	Avatar,
 	Box,
 	Button,
-	Divider,
 	Drawer,
-	Grid,
 	IconButton,
+	Link,
 	List,
 	ListItem,
-	ListItemIcon,
 	ListItemText,
 	makeStyles,
 	Typography,
@@ -17,13 +15,13 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import md5 from 'md5'
 import React, { useState } from 'react'
 import { useQueryClient } from 'react-query'
-import { useHistory } from 'react-router-dom'
+import { Link as RouterLink, useHistory } from 'react-router-dom'
 import useDeleteSession from '../hooks/mutations/useDeleteSession'
 import { User } from '../types'
 import { headerHeight } from './Header'
 
 interface LoggedInUserButtonProps {
-	user: User
+	user?: User
 }
 
 const drawerListWidth = 360
@@ -68,6 +66,15 @@ export default function LoggedInUserButton({ user }: LoggedInUserButtonProps) {
 		history.push(path)
 	}
 
+	// Replace with login logic inside drawer
+	if (!user) {
+		return (
+			<Link component={RouterLink} color="inherit" to="/login">
+				Log in
+			</Link>
+		)
+	}
+
 	const gravatarUrl = emailToGravatarUrl(user.email)
 
 	return (
@@ -99,6 +106,13 @@ export default function LoggedInUserButton({ user }: LoggedInUserButtonProps) {
 						onClick={() => navigateToThenClose('/my/bags')}
 					>
 						<ListItemText primary="My bags" />
+					</ListItem>
+
+					<ListItem
+						button
+						onClick={() => navigateToThenClose('/my/items')}
+					>
+						<ListItemText primary="My items" />
 					</ListItem>
 
 					<ListItem button onClick={handleLogout} color="secondary">
