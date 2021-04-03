@@ -12,10 +12,7 @@ export default function NewItemInput() {
 	const { data: currentUser } = useCurrentUser()
 	const { mutate: createItem } = useCreateItem({
 		onSuccess: () => {
-			queryClient.invalidateQueries([
-				'items',
-				{ userId: currentUser?.id },
-			])
+			queryClient.invalidateQueries(['users', currentUser?.id, 'items'])
 		},
 	})
 
