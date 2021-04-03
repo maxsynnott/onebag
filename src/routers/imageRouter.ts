@@ -31,6 +31,17 @@ const routes: RoutesObject = {
 			],
 		},
 	],
+	'/items/:itemId/images': [
+		{ method: 'get', handlers: [controller.itemIndex] },
+		{
+			method: 'post',
+			handlers: [
+				ensureAuthenticated,
+				upload.single('image'),
+				controller.createItemImage,
+			],
+		},
+	],
 }
 
 applyRoutes(router, routes)

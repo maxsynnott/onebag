@@ -1,6 +1,7 @@
 import { DeepPartial, getRepository } from 'typeorm'
 import { Bag } from '../entities/Bag'
 import { Image } from '../entities/Image'
+import { Item } from '../entities/Item'
 import { ImageResponse } from '../types'
 
 const imageUrlPrefix = 'http://localhost:8080/images/'
@@ -8,6 +9,7 @@ const imageUrlPrefix = 'http://localhost:8080/images/'
 export class ImageService {
 	private imageRepository = getRepository(Image)
 	private bagRepository = getRepository(Bag)
+	private itemRepository = getRepository(Item)
 
 	async create(attributes: DeepPartial<Image>) {
 		const image = new Image()
@@ -23,6 +25,15 @@ export class ImageService {
 		})
 
 		return bag.images
+	}
+
+	async findAllByItemId(itemId: string) {
+		const item = await this.itemRepository.findOne({
+			where: { id: itemId },
+			relations: ['images'],
+		})
+
+		return item.images
 	}
 
 	mapImageToResponseBody(image: Image): ImageResponse {

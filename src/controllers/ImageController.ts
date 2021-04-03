@@ -14,6 +14,17 @@ export class ImageController {
 		res.json(body)
 	}
 
+	async itemIndex(req: Request, res: Response) {
+		const { itemId } = req.params
+
+		const imageService = new ImageService()
+
+		const images = await imageService.findAllByItemId(itemId)
+
+		const body = imageService.mapImagesToResponseBody(images)
+		res.json(body)
+	}
+
 	async createBagImage(req: RequestWithUser, res: Response) {
 		const { bagId } = req.params
 		const { filename } = req.file
@@ -21,6 +32,20 @@ export class ImageController {
 		const imageService = new ImageService()
 
 		const relations = { bags: [{ id: bagId }] }
+		const attributes = { filename, ...relations }
+		const image = await imageService.create(attributes)
+
+		const body = imageService.mapImageToResponseBody(image)
+		res.json(body)
+	}
+
+	async createItemImage(req: RequestWithUser, res: Response) {
+		const { itemId } = req.params
+		const { filename } = req.file
+
+		const imageService = new ImageService()
+
+		const relations = { items: [{ id: itemId }] }
 		const attributes = { filename, ...relations }
 		const image = await imageService.create(attributes)
 
