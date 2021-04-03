@@ -6,9 +6,10 @@ import {
 	makeStyles,
 	Typography,
 } from '@material-ui/core'
-import { Link as RouterLink } from 'react-router-dom'
-import BagCard from '../components/BagCard'
+import React from 'react'
+import BagGrid from '../components/BagGrid'
 import useBags from '../hooks/queries/useBags'
+import { Link as RouterLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
 	cardGrid: {
@@ -63,13 +64,7 @@ export default function BagsIndexPage() {
 			</div>
 
 			<Box mt={1}>
-				<Grid container spacing={4}>
-					{bags?.map((bag: any) => (
-						<Grid item key={bag.id} xs={12} sm={6} md={3}>
-							<BagCard bag={bag} />
-						</Grid>
-					))}
-				</Grid>
+				<BagGrid bags={bags} />
 			</Box>
 		</Container>
 	)
