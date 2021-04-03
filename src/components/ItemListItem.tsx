@@ -1,4 +1,4 @@
-import { Button, Input } from '@material-ui/core'
+import { Button, Input, ListItem } from '@material-ui/core'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import useCreateItemImage from '../hooks/mutations/useCreateItemImage'
@@ -27,7 +27,7 @@ export default function ItemListItem({ item }: ItemListItemProps) {
 	}
 
 	return (
-		<li>
+		<ListItem>
 			<p>{JSON.stringify(item)}</p>
 			<form onSubmit={handleCreateItemImage}>
 				<Input
@@ -42,6 +42,6 @@ export default function ItemListItem({ item }: ItemListItemProps) {
 			{images?.map((image) => (
 				<img src={image.url} />
 			))}
-		</li>
+		</ListItem>
 	)
 }
