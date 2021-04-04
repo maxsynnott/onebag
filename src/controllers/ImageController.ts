@@ -3,28 +3,6 @@ import { ImageService } from '../services/ImageService'
 import { ExtendedRequest } from '../types'
 
 export class ImageController {
-	async bagIndex(req: Request, res: Response) {
-		const { bagId } = req.params
-
-		const imageService = new ImageService()
-
-		const images = await imageService.findAllByBagId(bagId)
-
-		const body = imageService.mapToResponseBody(images)
-		res.json(body)
-	}
-
-	async itemIndex(req: Request, res: Response) {
-		const { itemId } = req.params
-
-		const imageService = new ImageService()
-
-		const images = await imageService.findAllByItemId(itemId)
-
-		const body = imageService.mapToResponseBody(images)
-		res.json(body)
-	}
-
 	async createBagImage(req: ExtendedRequest, res: Response) {
 		const { bagId } = req.params
 		const { filename } = req.file
@@ -33,7 +11,7 @@ export class ImageController {
 
 		const relations = { bags: [{ id: bagId }] }
 		const attributes = { filename, ...relations }
-		const image = await imageService.create(attributes)
+		const image = await imageService.save(attributes)
 
 		const body = imageService.mapToResponseBody(image)
 		res.json(body)
@@ -47,7 +25,7 @@ export class ImageController {
 
 		const relations = { items: [{ id: itemId }] }
 		const attributes = { filename, ...relations }
-		const image = await imageService.create(attributes)
+		const image = await imageService.save(attributes)
 
 		const body = imageService.mapToResponseBody(image)
 		res.json(body)

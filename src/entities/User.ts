@@ -26,7 +26,7 @@ export class User {
 	@OneToMany(() => Bag, (bag) => bag.user)
 	bags: Bag[]
 
-	@ManyToMany(() => Bag, (bag) => bag.favoriteUsers)
+	@ManyToMany(() => Bag, (bag) => bag.favoritedByUsers)
 	@JoinTable()
 	favoriteBags: Bag[]
 

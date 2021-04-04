@@ -1,22 +1,14 @@
-import { FindConditions, FindManyOptions, getRepository } from 'typeorm'
+import { FindManyOptions } from 'typeorm'
 import { BagItem } from '../entities/BagItem'
+import { BaseService } from './BaseService'
 
-export class BagItemService {
-	private bagItemRepository = getRepository(BagItem)
-
-	async findAllByBagId(bagId: string, relations?: string[]) {
-		const findConditions = { bag: { id: bagId } }
-		return this.bagItemRepository.find({ ...findConditions, relations })
+export class BagItemService extends BaseService<BagItem> {
+	constructor() {
+		super(BagItem)
 	}
 
-	async create(attributes: Partial<BagItem>) {
-		const bagItem = new BagItem()
-		Object.assign(bagItem, attributes)
-
-		return this.bagItemRepository.save(bagItem)
-	}
-
-	async deleteByFindConditions(findConditions: FindConditions<BagItem>) {
-		return this.bagItemRepository.delete(findConditions)
+	async findAllByBagId(bagId: string, options: FindManyOptions<BagItem>) {
+		const where = { bag: { id: bagId } }
+		return this.repository.find({ where, ...options })
 	}
 }

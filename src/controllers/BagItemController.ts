@@ -10,7 +10,9 @@ export class BagItemController {
 
 		const bagItemService = new BagItemService()
 
-		const bagItems = await bagItemService.findAllByBagId(bagId, relations)
+		const bagItems = await bagItemService.findAllByBagId(bagId, {
+			relations,
+		})
 
 		res.json(bagItems)
 	}
@@ -22,7 +24,7 @@ export class BagItemController {
 		const relations = { bag: { id: bagId } }
 		const attributes = { ...req.body, ...relations }
 
-		const bagItem = await bagItemService.create(attributes)
+		const bagItem = await bagItemService.save(attributes)
 
 		res.json(bagItem)
 	}
@@ -32,7 +34,7 @@ export class BagItemController {
 
 		const bagItemService = new BagItemService()
 
-		await bagItemService.deleteByFindConditions({ id, bag: { id: bagId } })
+		await bagItemService.delete({ id, bag: { id: bagId } })
 
 		res.sendStatus(204)
 	}

@@ -1,32 +1,21 @@
-import { getRepository } from 'typeorm'
-import { User } from '../entities/User'
 import bcrypt from 'bcrypt'
-import { UserResponse } from '../types'
 import md5 from 'md5'
+import { getRepository } from 'typeorm'
 import { isArray } from 'util'
+import { User } from '../entities/User'
+import { UserResponse } from '../types'
+import { BaseService } from './BaseService'
 
-export class UserService {
-	private userRepository = getRepository(User)
+export class UserService extends BaseService<User> {
+	constructor() {
+		super(User)
+	}
 
-	async create({
-		username,
-		email,
-		password,
-	}: {
-		username: string
-		email: string
-		password: string
-	}) {
-		const user = new User()
-
-		user.username = username
-		user.email = email
-
+	async saveNewUser(email: string, username: string, password: string) {
 		const saltRounds = 10
 		const passwordHash = await bcrypt.hash(password, saltRounds)
-		user.passwordHash = passwordHash
 
-		return this.userRepository.save(user)
+		return this.repository.save({ email, username, passwordHash })
 	}
 
 	userToResponseMapper(user: User): UserResponse {

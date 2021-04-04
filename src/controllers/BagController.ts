@@ -1,5 +1,6 @@
 import { Response } from 'express'
 import { BagService } from '../services/BagService'
+import { UserService } from '../services/UserService'
 import { ExtendedRequest } from '../types'
 import { extractRelations } from './helpers'
 
@@ -7,21 +8,8 @@ export class BagController {
 	async index(req: ExtendedRequest, res: Response) {
 		const bagService = new BagService()
 
-		const bags = await bagService.findAll()
-
-		const responseBody = await bagService.mapToResponseBody(
-			bags,
-			req.user?.id,
-		)
-		res.json(responseBody)
-	}
-
-	async userIndex(req: ExtendedRequest, res: Response) {
-		const { userId } = req.params
-
-		const bagService = new BagService()
-
-		const bags = await bagService.findAllByUserId(userId)
+		const relations = extractRelations(req)
+		const bags = await bagService.findAll({ relations })
 
 		const responseBody = await bagService.mapToResponseBody(
 			bags,
@@ -35,7 +23,7 @@ export class BagController {
 
 		const relations = { user: req.user }
 		const attributes = { ...req.body, ...relations }
-		const bag = await bagService.create(attributes)
+		const bag = await bagService.save(attributes)
 
 		const responseBody = await bagService.mapToResponseBody(
 			bag,
@@ -50,8 +38,8 @@ export class BagController {
 
 		const bagService = new BagService()
 
-		const attributes = req.body
-		const bag = await bagService.update(id, attributes)
+		const attributes = { ...req.body, id }
+		const bag = await bagService.save(attributes)
 
 		const responseBody = await bagService.mapToResponseBody(
 			bag,
@@ -62,11 +50,11 @@ export class BagController {
 
 	async show(req: ExtendedRequest, res: Response) {
 		const { id } = req.params
-		const relations = extractRelations(req)
 
 		const bagService = new BagService()
 
-		const bag = await bagService.findOne(id, relations)
+		const relations = extractRelations(req)
+		const bag = await bagService.findOne(id, { relations })
 
 		const responseBody = await bagService.mapToResponseBody(
 			bag,

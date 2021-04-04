@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class addedFavoriteBagsUserRelation1617443702748 implements MigrationInterface {
-    name = 'addedFavoriteBagsUserRelation1617443702748'
+export class addedRelationFavoritedByUsers1617551232674 implements MigrationInterface {
+    name = 'addedRelationFavoritedByUsers1617551232674'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "user_favorite_bags_bag" ("userId" uuid NOT NULL, "bagId" uuid NOT NULL, CONSTRAINT "PK_457ea33242b60447bf41418e76e" PRIMARY KEY ("userId", "bagId"))`);

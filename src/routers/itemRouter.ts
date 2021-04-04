@@ -21,12 +21,6 @@ const routes: RoutesObject = {
 			handlers: [ensureAuthenticated, controller.delete],
 		},
 	],
-	'/users/:userId/items': [
-		{
-			method: 'get',
-			handlers: [controller.userIndex],
-		},
-	],
 }
 
 applyRoutes(router, routes)

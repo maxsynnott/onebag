@@ -3,19 +3,10 @@ import { ItemService } from '../services/ItemService'
 import { ExtendedRequest } from '../types'
 
 export class ItemController {
-	async userIndex(req: ExtendedRequest, res: Response, next: NextFunction) {
-		const { userId } = req.params
-
-		const itemService = new ItemService()
-
-		const items = await itemService.findAllByUserId(userId)
-		res.json(items)
-	}
-
 	async create(req: ExtendedRequest, res: Response) {
 		const itemService = new ItemService()
 		const attributes = { ...req.body, user: req.user }
-		const item = await itemService.create(attributes)
+		const item = await itemService.save(attributes)
 
 		res.json(item)
 	}
@@ -25,7 +16,7 @@ export class ItemController {
 
 		const itemService = new ItemService()
 
-		await itemService.deleteById(id)
+		await itemService.delete(id)
 
 		res.sendStatus(204)
 	}

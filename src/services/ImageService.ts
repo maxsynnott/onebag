@@ -1,38 +1,13 @@
-import { DeepPartial, getRepository } from 'typeorm'
 import { isArray } from 'util'
-import { Bag } from '../entities/Bag'
 import { Image } from '../entities/Image'
-import { Item } from '../entities/Item'
 import { ImageResponse } from '../types'
+import { BaseService } from './BaseService'
 
 const imageUrlPrefix = 'http://localhost:8080/images/'
 
-export class ImageService {
-	private imageRepository = getRepository(Image)
-	private bagRepository = getRepository(Bag)
-	private itemRepository = getRepository(Item)
-
-	async create(attributes: DeepPartial<Image>) {
-		const image = new Image()
-		Object.assign(image, attributes)
-
-		return this.imageRepository.save(image)
-	}
-
-	async findAllByBagId(bagId: string) {
-		const bag = await this.bagRepository.findOne(bagId, {
-			relations: ['images'],
-		})
-
-		return bag.images
-	}
-
-	async findAllByItemId(itemId: string) {
-		const item = await this.itemRepository.findOne(itemId, {
-			relations: ['images'],
-		})
-
-		return item.images
+export class ImageService extends BaseService<Image> {
+	constructor() {
+		super(Image)
 	}
 
 	imageToResponseMapper(image: Image): ImageResponse {

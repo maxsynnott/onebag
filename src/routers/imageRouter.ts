@@ -21,7 +21,6 @@ const router = Router()
 
 const routes: RoutesObject = {
 	'/bags/:bagId/images': [
-		{ method: 'get', handlers: [controller.bagIndex] },
 		{
 			method: 'post',
 			handlers: [
@@ -32,7 +31,6 @@ const routes: RoutesObject = {
 		},
 	],
 	'/items/:itemId/images': [
-		{ method: 'get', handlers: [controller.itemIndex] },
 		{
 			method: 'post',
 			handlers: [

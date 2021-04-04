@@ -1,75 +1,42 @@
-import { getRepository } from 'typeorm'
 import { isArray } from 'util'
 import { Bag } from '../entities/Bag'
-import { User } from '../entities/User'
 import { BagFavoriteAttributes, BagResponse } from '../types'
+import { BaseService } from './BaseService'
 import { ImageService } from './ImageService'
 
-export class BagService {
-	private bagRepository = getRepository(Bag)
-	private userRepository = getRepository(User)
-
-	async findAll() {
-		return this.bagRepository.find()
-	}
-
-	async findAllByUserId(userId: string) {
-		const user = await this.userRepository.findOne(userId, {
-			relations: ['bags'],
-		})
-
-		return user.bags
-	}
-
-	async findOne(id: string, relations?: string[]) {
-		return this.bagRepository.findOne(id, { relations })
-	}
-
-	async create(attributes: Partial<Bag>) {
-		const bag = new Bag()
-		Object.assign(bag, attributes)
-
-		return this.bagRepository.save(bag)
-	}
-
-	async update(id: string, attributes: Partial<Bag>) {
-		const editedBag = { ...attributes, id }
-
-		return this.bagRepository.save(editedBag)
+export class BagService extends BaseService<Bag> {
+	constructor() {
+		super(Bag)
 	}
 
 	async favorite(id: string, userId: string) {
-		const bag = { id, favoriteUsers: [{ id: userId }] }
-
-		return this.bagRepository.save(bag)
+		return this.repository.save({ id, favoritedByUsers: [{ id: userId }] })
 	}
 
 	async unfavorite(id: string, userId: string) {
-		const bag = await this.bagRepository.findOne(id, {
-			relations: ['favoriteUsers'],
+		const bag = await this.repository.findOne(id, {
+			relations: ['favoritedByUsers'],
 		})
-		const updatedFavoriteUsers = bag.favoriteUsers.filter(
-			(favoriteUser) => favoriteUser.id !== userId,
+		const updatedFavoritedByUsers = bag.favoritedByUsers.filter(
+			(favoritedByUser) => favoritedByUser.id !== userId,
 		)
+		bag.favoritedByUsers = updatedFavoritedByUsers
 
-		return this.bagRepository.save({
-			...bag,
-			favoriteUsers: updatedFavoriteUsers,
-		})
+		return this.repository.save(bag)
 	}
 
 	async getFavoriteAttributes(
 		id: string,
 		userId?: string,
 	): Promise<BagFavoriteAttributes> {
-		const { favoriteUsers } = await this.bagRepository.findOne(id, {
-			relations: ['favoriteUsers'],
+		const { favoritedByUsers } = await this.repository.findOne(id, {
+			relations: ['favoritedByUsers'],
 		})
 
-		const favoriteAttributes = { favoriteCount: favoriteUsers.length }
+		const favoriteAttributes = { favoriteCount: favoritedByUsers.length }
 		if (!userId) return favoriteAttributes
 
-		const favorited = favoriteUsers.some(
+		const favorited = favoritedByUsers.some(
 			(favoriteUser) => favoriteUser.id === userId,
 		)
 		return { ...favoriteAttributes, favorited }

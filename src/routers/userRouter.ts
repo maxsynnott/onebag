@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import { UserController } from '../controllers/UserController'
-import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 import { RoutesObject } from '../types'
 import applyRoutes from './applyRoutes'
 
