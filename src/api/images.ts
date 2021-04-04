@@ -17,9 +17,10 @@ export const getBagImages = async (
 }
 
 export const postBagImage = async (bagId: string, image: File) => {
-	const endpoint = `/bags/${bagId}/images`
+	const endpoint = buildEndpoint('/bags/:bagId/images', { bagId })
 	const formData = new FormData()
 	formData.append('image', image)
+
 	const { data } = await axios.post<Image>(endpoint, formData)
 	return data
 }
@@ -39,9 +40,10 @@ export const getItemImages = async (
 }
 
 export const postItemImage = async (itemId: string, image: File) => {
-	const endpoint = `/items/${itemId}/images`
+	const endpoint = buildEndpoint('/items/:itemId/images', { itemId })
 	const formData = new FormData()
 	formData.append('image', image)
+
 	const { data } = await axios.post<Image>(endpoint, formData)
 	return data
 }

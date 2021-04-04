@@ -4,19 +4,22 @@ import { buildEndpoint } from './helpers'
 
 export const getBags = async (queryParams?: QueryParamsObject) => {
 	const endpoint = buildEndpoint('/bags', undefined, queryParams)
+
 	const { data } = await axios.get(endpoint)
 	return data
 }
 
 export const getBag = async (id: string, queryParams?: QueryParamsObject) => {
 	const endpoint = buildEndpoint('/bags/:id', { id }, queryParams)
+
 	const { data } = await axios.get(endpoint, { withCredentials: true })
 	return data
 }
 
 export const postBag = async (newBag: Partial<Bag>) => {
-	const endpoint = '/bags'
+	const endpoint = buildEndpoint('/bags')
 	const body = newBag
+
 	const { data } = await axios.post<Bag>(endpoint, body, {
 		withCredentials: true,
 	})
@@ -24,8 +27,9 @@ export const postBag = async (newBag: Partial<Bag>) => {
 }
 
 export const patchBag = async (id: string, attributes: Partial<Bag>) => {
-	const endpoint = `/bags/${id}`
+	const endpoint = buildEndpoint('/bags/:id', { id })
 	const body = attributes
+
 	const { data } = await axios.patch<Bag>(endpoint, body, {
 		withCredentials: true,
 	})
@@ -33,7 +37,8 @@ export const patchBag = async (id: string, attributes: Partial<Bag>) => {
 }
 
 export const postFavoriteBag = async (id: string) => {
-	const endpoint = `/bags/${id}/favorite`
+	const endpoint = buildEndpoint('/bags/:id/favorite', { id })
+
 	const { data } = await axios.post<Bag>(endpoint, null, {
 		withCredentials: true,
 	})
@@ -41,7 +46,8 @@ export const postFavoriteBag = async (id: string) => {
 }
 
 export const deleteFavoriteBag = async (id: string) => {
-	const endpoint = `/bags/${id}/favorite`
+	const endpoint = buildEndpoint('/bags/:id/favorite', { id })
+
 	const { data } = await axios.delete<Bag>(endpoint, {
 		withCredentials: true,
 	})
@@ -57,12 +63,14 @@ export const getUserBags = async (
 		{ userId },
 		queryParams,
 	)
+
 	const { data } = await axios.get(endpoint)
 	return data
 }
 
 export const getFavoriteBags = async (queryParams?: QueryParamsObject) => {
 	const endpoint = buildEndpoint('/bags/favorites', undefined, queryParams)
+
 	const { data } = await axios.get(endpoint, { withCredentials: true })
 	return data
 }

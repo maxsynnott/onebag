@@ -17,8 +17,9 @@ export const getUserItems = async (
 }
 
 export const postItem = async (item: Partial<Item>) => {
-	const endpoint = `/items`
+	const endpoint = buildEndpoint('/items')
 	const body = item
+
 	const { data } = await axios.post<Item>(endpoint, body, {
 		withCredentials: true,
 	})

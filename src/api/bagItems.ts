@@ -11,6 +11,7 @@ export const getBagItems = async (
 		{ bagId },
 		queryParams,
 	)
+
 	const { data } = await axios.get(endpoint)
 	return data
 }
@@ -19,8 +20,9 @@ export const postBagItem = async (
 	bagId: string,
 	newBagItem: Partial<BagItemPostRequestPayload>,
 ) => {
-	const endpoint = `/bags/${bagId}/bagItems`
+	const endpoint = buildEndpoint('/bags/:bagId/bagItems', { bagId })
 	const body = newBagItem
+
 	const { data } = await axios.post<BagItem>(endpoint, body, {
 		withCredentials: true,
 	})
@@ -28,7 +30,8 @@ export const postBagItem = async (
 }
 
 export const deleteBagItem = async (bagId: string, id: string) => {
-	const endpoint = `/bags/${bagId}/bagItems/${id}`
+	const endpoint = buildEndpoint('/bags/:bagId/bagItems/:id', { bagId, id })
+
 	const { data } = await axios.delete(endpoint, { withCredentials: true })
 	return data
 }
