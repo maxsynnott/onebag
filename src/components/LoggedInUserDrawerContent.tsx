@@ -90,6 +90,13 @@ export default function LoggedInUserDrawerContent({
 
 				<ListItem
 					button
+					onClick={() => navigateToThenClose('/my/wishlist')}
+				>
+					<ListItemText primary="My wish list" />
+				</ListItem>
+
+				<ListItem
+					button
 					onClick={() => navigateToThenClose('/favorites')}
 				>
 					<ListItemText primary="Favorites" />

@@ -12,14 +12,21 @@ import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import React from 'react'
 import { useQueryClient } from 'react-query'
-import { BagItem } from '../types'
+import { BagItem, WithItem } from '../types'
+import useCreateWishListItem from '../hooks/mutations/useCreateWishListItem'
 
 interface BagItemListItemProps {
-	bagItem: BagItem
+	bagItem: BagItem & WithItem
 }
 
 export default function BagItemCard({ bagItem }: BagItemListItemProps) {
 	const queryClient = useQueryClient()
+
+	const { mutate: createWishListItem } = useCreateWishListItem()
+
+	const handleCreateWishListItem = () => {
+		createWishListItem({ name: bagItem.item.name })
+	}
 
 	return (
 		<Card style={{ width: '100%' }}>
@@ -27,7 +34,7 @@ export default function BagItemCard({ bagItem }: BagItemListItemProps) {
 				<Grid item xs={9}>
 					<CardContent>
 						<Typography variant="h6">
-							{bagItem.item?.name}
+							{bagItem.item.name}
 						</Typography>
 						<Typography variant="body2">
 							{bagItem.comment}
@@ -36,7 +43,7 @@ export default function BagItemCard({ bagItem }: BagItemListItemProps) {
 
 					<CardActions>
 						<ButtonGroup>
-							<IconButton>
+							<IconButton onClick={handleCreateWishListItem}>
 								<PlaylistAddIcon color="primary" />
 							</IconButton>
 							<IconButton>

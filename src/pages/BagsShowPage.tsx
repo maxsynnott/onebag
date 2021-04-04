@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import BagItemCard from '../components/BagItemCard'
 import BagMainCard from '../components/BagMainCard'
 import useBag from '../hooks/queries/useBag'
-import { Bag, WithBagItems, WithImages } from '../types'
+import { Bag, BagItem, WithBagItems, WithImages, WithItem } from '../types'
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -16,8 +16,10 @@ export default function BagsShowPage() {
 	const { id } = useParams<{ id: string }>()
 	const classes = useStyles()
 
-	const { data: bag } = useBag<Bag & WithImages & WithBagItems>(id, {
-		queryParams: { relations: ['images', 'bagItems'] },
+	const { data: bag } = useBag<
+		Bag & WithImages & WithBagItems<BagItem & WithItem>
+	>(id, {
+		queryParams: { relations: ['images', 'bagItems', 'bagItems.item'] },
 	})
 
 	if (!bag) return <p>Future 404 page</p>

@@ -72,8 +72,16 @@ export interface WithImages {
 	images: Image[]
 }
 
-export interface WithBagItems {
-	bagItems: BagItem[]
+export interface WithBagItems<T = BagItem> {
+	bagItems: T[]
+}
+
+export interface WithWishListItems {
+	wishListItems: WishListItem[]
+}
+
+export interface WithItem {
+	item: Item
 }
 
 export interface WithItems<T = Item> {
@@ -91,4 +99,10 @@ export interface ExtendedUseQueryOptions<T = unknown, U = unknown, V = T>
 
 export interface QueryParamsObject {
 	relations?: string[]
+}
+
+export interface WishListItem {
+	id: string
+	name: string
+	affiliateLink: string
 }
