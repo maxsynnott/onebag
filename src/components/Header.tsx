@@ -35,12 +35,6 @@ export default function Header() {
 				</Link>
 			</Box>
 
-			<Box ml={2}>
-				<Link component={RouterLink} to="/items" color="inherit">
-					<Typography>Items</Typography>
-				</Link>
-			</Box>
-
 			<Box flexGrow={1} />
 
 			<UserDrawer user={currentUser} />

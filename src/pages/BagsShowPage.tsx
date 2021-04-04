@@ -1,21 +1,46 @@
+import { Grid, makeStyles } from '@material-ui/core'
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import BagEditableShow from '../components/BagEditableShow'
-import BagViewableShow from '../components/BagViewableShow'
+import BagItemCard from '../components/BagItemCard'
+import BagMainCard from '../components/BagMainCard'
 import useBag from '../hooks/queries/useBag'
-import useCurrentUser from '../hooks/queries/useCurrentUser'
+import useBagItems from '../hooks/queries/useBagItems'
+
+const useStyles = makeStyles((theme) => ({
+	container: {
+		marginTop: theme.spacing(2),
+	},
+}))
 
 export default function BagsShowPage() {
 	const { id } = useParams<{ id: string }>()
+	const classes = useStyles()
 
-	const { data: bag } = useBag(id)
-	const { data: currentUser } = useCurrentUser({ retry: false })
-
+	const { data: bag } = useBag(id, ['images'])
+	const { data: bagItems } = useBagItems(bag?.id, ['item'])
 	if (!bag) return <p>Future 404 page</p>
 
-	return currentUser ? (
-		<BagEditableShow bag={bag} />
-	) : (
-		<BagViewableShow bag={bag} />
+	return (
+		<Grid
+			container
+			className={classes.container}
+			spacing={2}
+			justify="center"
+		>
+			<Grid item xs={12}>
+				<BagMainCard bag={bag} />
+			</Grid>
+
+			<Grid item xs={12}>
+				<Grid container spacing={2}>
+					{bagItems &&
+						bagItems.map((bagItem) => (
+							<Grid item xs={12} md={6}>
+								<BagItemCard bagId={bag.id} bagItem={bagItem} />
+							</Grid>
+						))}
+				</Grid>
+			</Grid>
+		</Grid>
 	)
 }

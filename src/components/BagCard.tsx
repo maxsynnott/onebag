@@ -11,8 +11,6 @@ import {
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { Link as RouterLink } from 'react-router-dom'
-import useFavoriteBag from '../hooks/mutations/useFavoriteBag'
-import useUnfavoriteBag from '../hooks/mutations/useUnfavoriteBag'
 import { Bag } from '../types'
 import BagFavoriteButton from './BagFavoriteButton'
 
@@ -41,20 +39,6 @@ interface BagCardProps {
 export default function BagCard({ bag }: BagCardProps) {
 	const queryClient = useQueryClient()
 	const classes = useStyles()
-
-	const { mutate: favoriteBag } = useFavoriteBag(bag.id, {
-		onSuccess: () => {
-			queryClient.invalidateQueries('bags')
-		},
-	})
-	const { mutate: unfavoriteBag } = useUnfavoriteBag(bag.id, {
-		onSuccess: () => {
-			queryClient.invalidateQueries('bags')
-		},
-	})
-
-	const handleFavoriteBag = () => favoriteBag()
-	const handleUnfavoriteBag = () => unfavoriteBag()
 
 	return (
 		<Card className={classes.card}>
@@ -86,7 +70,7 @@ export default function BagCard({ bag }: BagCardProps) {
 				</Button>
 				<Box>
 					{typeof bag.favorited === 'boolean' && (
-						<BagFavoriteButton bag={bag} />
+						<BagFavoriteButton bag={bag} showFavoriteCount={true} />
 					)}
 				</Box>
 			</CardActions>

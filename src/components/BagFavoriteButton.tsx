@@ -9,9 +9,13 @@ import { Bag } from '../types'
 
 interface FavoriteButtonProps {
 	bag: Bag
+	showFavoriteCount: boolean
 }
 
-export default function BagFavoriteButton({ bag }: FavoriteButtonProps) {
+export default function BagFavoriteButton({
+	bag,
+	showFavoriteCount,
+}: FavoriteButtonProps) {
 	const queryClient = useQueryClient()
 
 	const { mutate: favoriteBag } = useFavoriteBag(bag.id, {
@@ -30,7 +34,7 @@ export default function BagFavoriteButton({ bag }: FavoriteButtonProps) {
 
 	return (
 		<IconButton onClick={handleToggleFavorite}>
-			{bag.favoriteCount > 0 && (
+			{showFavoriteCount && bag.favoriteCount > 0 && (
 				<Typography variant="caption">{bag.favoriteCount}</Typography>
 			)}
 			{bag.favorited ? (

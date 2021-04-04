@@ -1,126 +1,55 @@
-import { Button, Container, makeStyles, TextField } from '@material-ui/core'
-import { convertToRaw } from 'draft-js'
-import MUIRichTextEditor from 'mui-rte'
-import { FormEvent, useState } from 'react'
+import { Button, MenuItem, Select, TextField } from '@material-ui/core'
+import React, { FormEvent, useState } from 'react'
 import { useParams } from 'react-router'
-import useUpdateBag from '../hooks/mutations/useUpdateBag'
-import useBag from '../hooks/queries/useBag'
-import { Bag } from '../types'
-
-const enabledControls = [
-	'title',
-	'bold',
-	'italic',
-	'underline',
-	'strikethrough',
-	'highlight',
-	'undo',
-	'redo',
-	'numberList',
-	'bulletList',
-	'quote',
-	'clear',
-	'code',
-	'save',
-]
-
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-	},
-	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-	root: {
-		flexGrow: 1,
-		maxWidth: 500,
-	},
-}))
+import useCreateBagItem from '../hooks/mutations/useCreateBagItem'
+import useCurrentUser from '../hooks/queries/useCurrentUser'
+import useUserItems from '../hooks/queries/useUserItems'
 
 export default function BagsEditPage() {
 	const { id } = useParams<{ id: string }>()
-	const classes = useStyles()
 
-	const [name, setName] = useState('')
-	const [description, setDescription] = useState('')
+	const [itemId, setItemId] = useState('')
+	const [comment, setComment] = useState('')
+	const [quantity, setQuantity] = useState(1)
 
-	const [enabled, setEnabled] = useState(true)
-	// Clean this shit up
-	const { refetch } = useBag(id, {
-		onSuccess: (bag: Bag) => {
-			setName(bag.name)
-			setDescription(bag.description)
-			setEnabled(false)
-		},
-		enabled,
-	})
+	const { mutate: createBagItem } = useCreateBagItem(id)
 
-	const { mutate: updateBag } = useUpdateBag(id, {
-		onSuccess: () => {
-			refetch()
-		},
-	})
+	const { data: currentUser } = useCurrentUser()
+	const { data: items } = useUserItems(currentUser?.id)
 
-	const handleUpdateBag = (e: FormEvent) => {
+	const handleCreateBagItem = (e: FormEvent) => {
 		e.preventDefault()
-		updateBag({ name, description })
+
+		createBagItem({ comment, quantity, item: { id: itemId } })
 	}
 
 	return (
-		<Container component="main" maxWidth="md">
-			<div className={classes.paper}>
-				<form className={classes.form} onSubmit={handleUpdateBag}>
-					<TextField
-						variant="outlined"
-						margin="normal"
-						required
-						fullWidth
-						id="name"
-						label="Name"
-						name="name"
-						placeholder="Indefinite travel in SE Asia"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						autoFocus
-					/>
-					<MUIRichTextEditor
-						defaultValue={description}
-						label="Start typing"
-						controls={enabledControls}
-						onChange={(editorState) => {
-							// This is a shitty temp solution to an infinite loop
-							if (description) {
-								const contentState = editorState.getCurrentContent()
-								const rawContentState = convertToRaw(
-									contentState,
-								)
-								const stringifiedRawContentState = JSON.stringify(
-									rawContentState,
-								)
-								console.log(stringifiedRawContentState)
-								setDescription(stringifiedRawContentState)
-							}
-						}}
-					/>
-					ITEMS WILL GO HERE
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-					>
-						Update bag (THIS WILL BE REMOVED TO MAKE A FANCY FORM)
-					</Button>
-				</form>
-			</div>
-		</Container>
+		<form onSubmit={handleCreateBagItem}>
+			<Select
+				value={itemId}
+				onChange={(e) => setItemId(e.target.value as string)}
+			>
+				{items?.map((item) => (
+					<MenuItem value={item.id} key={item.id}>
+						{item.name}
+					</MenuItem>
+				))}
+			</Select>
+
+			<TextField
+				label="Comment"
+				value={comment}
+				onChange={(e) => setComment(e.target.value)}
+			/>
+
+			<TextField
+				label="Quantity"
+				value={quantity}
+				onChange={(e) => setQuantity(Number(e.target.value))}
+				type="number"
+			/>
+
+			<Button type="submit">Submit</Button>
+		</form>
 	)
 }

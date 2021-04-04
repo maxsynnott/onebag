@@ -3,7 +3,7 @@ import { getBagImages } from '../../api/images'
 import { Image } from '../../types'
 
 export default function useBagImages(
-	bagId: string,
+	bagId?: string,
 	options?: UseQueryOptions<Image[]>,
 ) {
 	const queryKey = ['bags', bagId, 'images']

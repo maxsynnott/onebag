@@ -3,10 +3,11 @@ import { getBagItems } from '../../api/bagItems'
 import { BagItem } from '../../types'
 
 export default function useBagItems(
-	bagId: string,
+	bagId?: string,
+	relations?: string[],
 	options?: UseQueryOptions<BagItem[]>,
 ) {
 	const queryKey = ['bags', bagId, 'bagItems']
 
-	return useQuery(queryKey, () => getBagItems(bagId), options)
+	return useQuery(queryKey, () => getBagItems(bagId, relations), options)
 }
