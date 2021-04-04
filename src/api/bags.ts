@@ -53,3 +53,9 @@ export const getUserBags = async (userId?: string) => {
 	const { data } = await axios.get<Bag[]>(endpoint)
 	return data
 }
+
+export const getFavoriteBags = async () => {
+	const endpoint = `/bags/favorites`
+	const { data } = await axios.get<Bag[]>(endpoint, { withCredentials: true })
+	return data
+}

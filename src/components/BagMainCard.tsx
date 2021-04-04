@@ -36,7 +36,7 @@ export default function BagMainCard({ bag }: BagMainCardProps) {
 	return (
 		<Card>
 			<Grid container>
-				<Grid item xs={6}>
+				<Grid item sm={6} xs={12}>
 					<CardHeader title={bag.name} />
 					<CardContent>
 						<Typography>
@@ -65,7 +65,7 @@ export default function BagMainCard({ bag }: BagMainCardProps) {
 					</CardContent>
 				</Grid>
 
-				<Grid item xs={6}>
+				<Grid item sm={6} xs={12}>
 					<CardMedia
 						image={image?.url}
 						className={classes.cardMedia}

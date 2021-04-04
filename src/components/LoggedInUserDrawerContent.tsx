@@ -88,6 +88,13 @@ export default function LoggedInUserDrawerContent({
 					<ListItemText primary="My items" />
 				</ListItem>
 
+				<ListItem
+					button
+					onClick={() => navigateToThenClose('/favorites')}
+				>
+					<ListItemText primary="Favorites" />
+				</ListItem>
+
 				<ListItem button onClick={handleLogout} color="secondary">
 					<ListItemText primary="Log out" />
 				</ListItem>
