@@ -2,18 +2,16 @@ import { Button, Input, ListItem } from '@material-ui/core'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import useCreateItemImage from '../hooks/mutations/useCreateItemImage'
-import useItemImages from '../hooks/queries/useItemImages'
-import { Item } from '../types'
+import { Item, WithImages } from '../types'
 
 interface ItemListItemProps {
-	item: Item
+	item: Item & WithImages
 }
 
 export default function ItemListItem({ item }: ItemListItemProps) {
 	const queryClient = useQueryClient()
 	const [image, setImage] = useState<File>()
 
-	const { data: images } = useItemImages(item.id)
 	const { mutate: createItemImage } = useCreateItemImage(item.id, {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['items', item.id, 'images'])
@@ -39,7 +37,7 @@ export default function ItemListItem({ item }: ItemListItemProps) {
 
 				<Button type="submit">Submit</Button>
 			</form>
-			{images?.map((image) => (
+			{item.images.map((image) => (
 				<img src={image.url} />
 			))}
 		</ListItem>

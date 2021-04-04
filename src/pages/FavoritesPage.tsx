@@ -1,8 +1,8 @@
 import { Box, Container, makeStyles } from '@material-ui/core'
 import React from 'react'
 import BagsGrid from '../components/BagsGrid'
-import useFavoriteBags from '../hooks/queries/useFavoriteBags'
-import { Bag, WithUser } from '../types'
+import useCurrentUser from '../hooks/queries/useCurrentUser'
+import { User, WithBags } from '../types'
 
 const useStyles = makeStyles((theme) => ({
 	cardGrid: {
@@ -14,10 +14,15 @@ const useStyles = makeStyles((theme) => ({
 export default function FavoritesPage() {
 	const classes = useStyles()
 
-	const { data: bags } = useFavoriteBags<(Bag & WithUser)[]>({
-		queryParams: { relations: ['user'] },
+	const { data: currentUser } = useCurrentUser<User & WithBags>({
+		queryParams: {
+			relations: ['favoriteBags'],
+		},
 	})
-	if (!bags) return <p>404</p>
+
+	if (!currentUser) return <p>404</p>
+
+	const bags = currentUser.bags.map((bag) => ({ ...bag, user: currentUser }))
 
 	return (
 		<Container className={classes.cardGrid}>

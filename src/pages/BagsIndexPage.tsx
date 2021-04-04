@@ -4,7 +4,6 @@ import BagsGrid from '../components/BagsGrid'
 import HeroContent from '../components/HeroContent'
 import useBags from '../hooks/queries/useBags'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
-import useUserBags from '../hooks/queries/useUserBags'
 import { Bag, WithUser } from '../types'
 
 const useStyles = makeStyles((theme) => ({

@@ -13,11 +13,14 @@ export interface BagRelations {
 	user: User
 }
 
-export interface User {
+export interface User extends Partial<UserRelations> {
 	id: string
 	username: string
 	email: string
 	avatarUrl: string
+}
+
+interface UserRelations {
 	bags: Bag[]
 }
 
@@ -59,6 +62,14 @@ type DeepPartial<T> = {
 
 export interface WithUser {
 	user: User
+}
+
+export interface WithBags {
+	bags: Bag[]
+}
+
+export interface WithImages {
+	images: Image[]
 }
 
 export interface ExtendedUseQueryOptions<T = unknown, U = unknown, V = T>
