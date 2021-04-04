@@ -1,8 +1,9 @@
 import axios from 'axios'
-import { CreateUserPayload, User } from '../types'
+import { CreateUserPayload, QueryParamsObject, User } from '../types'
+import { buildEndpoint } from './helpers'
 
-export const getCurrentUser = async () => {
-	const endpoint = '/users/current'
+export const getCurrentUser = async (queryParams?: QueryParamsObject) => {
+	const endpoint = buildEndpoint('/users/current', undefined, queryParams)
 	const { data } = await axios.get<User>(endpoint, {
 		withCredentials: true,
 	})

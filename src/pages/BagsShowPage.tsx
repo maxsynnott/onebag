@@ -16,8 +16,11 @@ export default function BagsShowPage() {
 	const { id } = useParams<{ id: string }>()
 	const classes = useStyles()
 
-	const { data: bag } = useBag(id, ['images'])
-	const { data: bagItems } = useBagItems(bag?.id, ['item'])
+	const { data: bag } = useBag(id, { queryParams: { relations: ['images'] } })
+	const { data: bagItems } = useBagItems(bag?.id as string, {
+		queryParams: { relations: ['item'] },
+		enabled: Boolean(bag?.id),
+	})
 	if (!bag) return <p>Future 404 page</p>
 
 	return (

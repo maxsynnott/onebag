@@ -1,6 +1,7 @@
 import {
 	Box,
 	Button,
+	ButtonGroup,
 	Card,
 	CardActions,
 	CardContent,
@@ -11,7 +12,8 @@ import {
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { Link as RouterLink } from 'react-router-dom'
-import { Bag } from '../types'
+import useCurrentUser from '../hooks/queries/useCurrentUser'
+import { Bag, BagRelations, User, WithUser } from '../types'
 import BagFavoriteButton from './BagFavoriteButton'
 
 const useStyles = makeStyles((theme) => ({
@@ -33,10 +35,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface BagCardProps {
-	bag: Bag
+	bag: Bag & WithUser
 }
 
 export default function BagCard({ bag }: BagCardProps) {
+	const { data: currentUser } = useCurrentUser()
+	const currentUserIsOwner = currentUser?.id === bag.user.id
+
 	const queryClient = useQueryClient()
 	const classes = useStyles()
 
@@ -60,14 +65,27 @@ export default function BagCard({ bag }: BagCardProps) {
 				</Box>
 			</CardContent>
 			<CardActions className={classes.cardActions}>
-				<Button
-					component={RouterLink}
-					to={`/bags/${bag.id}`}
-					size="small"
-					color="primary"
-				>
-					View
-				</Button>
+				<ButtonGroup>
+					<Button
+						component={RouterLink}
+						to={`/bags/${bag.id}`}
+						size="small"
+						color="primary"
+					>
+						View
+					</Button>
+					{currentUserIsOwner && (
+						<Button
+							component={RouterLink}
+							to={`/bags/${bag.id}/edit`}
+							size="small"
+							color="primary"
+						>
+							Edit
+						</Button>
+					)}
+				</ButtonGroup>
+
 				<Box>
 					{typeof bag.favorited === 'boolean' && (
 						<BagFavoriteButton bag={bag} showFavoriteCount={true} />

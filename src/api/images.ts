@@ -1,8 +1,17 @@
 import axios from 'axios'
-import { Image } from '../types'
+import { Image, QueryParamsObject } from '../types'
+import { buildEndpoint } from './helpers'
 
-export const getBagImages = async (bagId?: string) => {
-	const endpoint = `/bags/${bagId}/images`
+export const getBagImages = async (
+	bagId: string,
+	queryParams?: QueryParamsObject,
+) => {
+	const endpoint = buildEndpoint(
+		'/bags/:bagId/images',
+		{ bagId },
+		queryParams,
+	)
+
 	const { data } = await axios.get<Image[]>(endpoint)
 	return data
 }
@@ -15,8 +24,16 @@ export const postBagImage = async (bagId: string, image: File) => {
 	return data
 }
 
-export const getItemImages = async (itemId: string) => {
-	const endpoint = `/items/${itemId}/images`
+export const getItemImages = async (
+	itemId: string,
+	queryParams?: QueryParamsObject,
+) => {
+	const endpoint = buildEndpoint(
+		'/items/:itemId/images',
+		{ itemId },
+		queryParams,
+	)
+
 	const { data } = await axios.get<Image[]>(endpoint)
 	return data
 }

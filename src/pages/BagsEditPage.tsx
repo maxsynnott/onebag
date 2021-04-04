@@ -15,7 +15,9 @@ export default function BagsEditPage() {
 	const { mutate: createBagItem } = useCreateBagItem(id)
 
 	const { data: currentUser } = useCurrentUser()
-	const { data: items } = useUserItems(currentUser?.id)
+	const { data: items } = useUserItems(currentUser?.id as string, {
+		enabled: Boolean(currentUser?.id),
+	})
 
 	const handleCreateBagItem = (e: FormEvent) => {
 		e.preventDefault()

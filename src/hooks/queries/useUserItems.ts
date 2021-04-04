@@ -1,12 +1,16 @@
-import { useQuery, UseQueryOptions } from 'react-query'
+import { useQuery } from 'react-query'
 import { getUserItems } from '../../api/items'
-import { Item } from '../../types'
+import { ExtendedUseQueryOptions, Item } from '../../types'
 
 export default function useUserItems(
-	userId?: string,
-	options?: UseQueryOptions<Item[]>,
+	userId: string,
+	options?: ExtendedUseQueryOptions<Item[]>,
 ) {
 	const queryKey = ['users', userId, 'items']
 
-	return useQuery(queryKey, () => getUserItems(userId), options)
+	return useQuery(
+		queryKey,
+		() => getUserItems(userId, options?.queryParams),
+		options,
+	)
 }

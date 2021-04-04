@@ -1,3 +1,5 @@
+import { UseQueryOptions } from 'react-query'
+
 export interface Bag extends Partial<BagRelations> {
 	id: string
 	name: string
@@ -6,8 +8,9 @@ export interface Bag extends Partial<BagRelations> {
 	favorited?: boolean
 }
 
-interface BagRelations {
+export interface BagRelations {
 	images: Image[]
+	user: User
 }
 
 export interface User {
@@ -15,6 +18,7 @@ export interface User {
 	username: string
 	email: string
 	avatarUrl: string
+	bags: Bag[]
 }
 
 export interface Item {
@@ -51,4 +55,17 @@ export interface CreateUserPayload extends Partial<User> {
 
 type DeepPartial<T> = {
 	[P in keyof T]?: DeepPartial<T[P]>
+}
+
+export interface WithUser {
+	user: User
+}
+
+export interface ExtendedUseQueryOptions<T = unknown, U = unknown, V = T>
+	extends UseQueryOptions<T, U, V> {
+	queryParams?: QueryParamsObject
+}
+
+export interface QueryParamsObject {
+	relations?: string[]
 }

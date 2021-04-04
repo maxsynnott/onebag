@@ -1,12 +1,16 @@
-import { useQuery, UseQueryOptions } from 'react-query'
+import { useQuery } from 'react-query'
 import { getUserBags } from '../../api/bags'
-import { Bag } from '../../types'
+import { Bag, ExtendedUseQueryOptions } from '../../types'
 
 export default function useUserBags(
-	userId?: string,
-	options?: UseQueryOptions<Bag[]>,
+	userId: string,
+	options?: ExtendedUseQueryOptions<Bag[]>,
 ) {
 	const queryKey = ['users', userId, 'bags']
 
-	return useQuery(queryKey, () => getUserBags(userId), options)
+	return useQuery(
+		queryKey,
+		() => getUserBags(userId, options?.queryParams),
+		options,
+	)
 }

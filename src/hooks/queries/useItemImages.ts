@@ -1,12 +1,16 @@
-import { useQuery, UseQueryOptions } from 'react-query'
+import { useQuery } from 'react-query'
 import { getItemImages } from '../../api/images'
-import { Image } from '../../types'
+import { ExtendedUseQueryOptions, Image } from '../../types'
 
 export default function useItemImages(
 	itemId: string,
-	options?: UseQueryOptions<Image[]>,
+	options?: ExtendedUseQueryOptions<Image[]>,
 ) {
 	const queryKey = ['items', itemId, 'images']
 
-	return useQuery(queryKey, () => getItemImages(itemId), options)
+	return useQuery(
+		queryKey,
+		() => getItemImages(itemId, options?.queryParams),
+		options,
+	)
 }

@@ -1,9 +1,9 @@
 import { Grid } from '@material-ui/core'
 import BagCard from '../components/BagCard'
-import { Bag } from '../types'
+import { Bag, WithUser } from '../types'
 
 interface BagsGridProps {
-	bags: Bag[]
+	bags: (Bag & WithUser)[]
 }
 
 export default function BagsGrid({ bags }: BagsGridProps) {

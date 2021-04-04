@@ -1,9 +1,13 @@
 import { useQuery, UseQueryOptions } from 'react-query'
-import { getFavoriteBags, getUserBags } from '../../api/bags'
-import { Bag } from '../../types'
+import { getFavoriteBags } from '../../api/bags'
+import { Bag, ExtendedUseQueryOptions } from '../../types'
 
-export default function useUserBags(options?: UseQueryOptions<Bag[]>) {
+export default function useUserBags(options?: ExtendedUseQueryOptions<Bag[]>) {
 	const queryKey = ['bags', 'favorites']
 
-	return useQuery(queryKey, () => getFavoriteBags(), options)
+	return useQuery(
+		queryKey,
+		() => getFavoriteBags(options?.queryParams),
+		options,
+	)
 }

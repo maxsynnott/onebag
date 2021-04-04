@@ -1,8 +1,17 @@
 import axios from 'axios'
-import { Item } from '../types'
+import { Item, QueryParamsObject } from '../types'
+import { buildEndpoint } from './helpers'
 
-export const getUserItems = async (userId?: string) => {
-	const endpoint = `/users/${userId}/items`
+export const getUserItems = async (
+	userId: string,
+	queryParams?: QueryParamsObject,
+) => {
+	const endpoint = buildEndpoint(
+		'/users/:userId/items',
+		{ userId },
+		queryParams,
+	)
+
 	const { data } = await axios.get<Item[]>(endpoint)
 	return data
 }

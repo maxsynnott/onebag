@@ -1,15 +1,15 @@
 import axios from 'axios'
-import { Bag } from '../types'
+import { Bag, QueryParamsObject } from '../types'
+import { buildEndpoint } from './helpers'
 
-export const getBags = async () => {
-	const endpoint = '/bags'
+export const getBags = async (queryParams?: QueryParamsObject) => {
+	const endpoint = buildEndpoint('/bags', undefined, queryParams)
 	const { data } = await axios.get<Bag[]>(endpoint)
 	return data
 }
 
-export const getBag = async (id: string, relations?: string[]) => {
-	let endpoint = `/bags/${id}`
-	if (relations) endpoint += `?relations=${relations.join(',')}`
+export const getBag = async (id: string, queryParams?: QueryParamsObject) => {
+	const endpoint = buildEndpoint('/bags/:id', { id }, queryParams)
 	const { data } = await axios.get<Bag>(endpoint, { withCredentials: true })
 	return data
 }
@@ -48,14 +48,21 @@ export const deleteFavoriteBag = async (id: string) => {
 	return data
 }
 
-export const getUserBags = async (userId?: string) => {
-	const endpoint = `/users/${userId}/bags`
+export const getUserBags = async (
+	userId: string,
+	queryParams?: QueryParamsObject,
+) => {
+	const endpoint = buildEndpoint(
+		'/users/:userId/bags',
+		{ userId },
+		queryParams,
+	)
 	const { data } = await axios.get<Bag[]>(endpoint)
 	return data
 }
 
-export const getFavoriteBags = async () => {
-	const endpoint = `/bags/favorites`
+export const getFavoriteBags = async (queryParams?: QueryParamsObject) => {
+	const endpoint = buildEndpoint('/bags/favorites', undefined, queryParams)
 	const { data } = await axios.get<Bag[]>(endpoint, { withCredentials: true })
 	return data
 }

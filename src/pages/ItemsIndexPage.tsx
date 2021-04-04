@@ -7,8 +7,9 @@ import { Item } from '../types'
 
 export default function ItemsIndexPage() {
 	const { data: currentUser } = useCurrentUser()
-
-	const { data: items } = useUserItems(currentUser?.id)
+	const { data: items } = useUserItems(currentUser?.id as string, {
+		enabled: Boolean(currentUser?.id),
+	})
 
 	return (
 		<Box>

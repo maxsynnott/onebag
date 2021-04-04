@@ -6,7 +6,9 @@ import useUserItems from '../hooks/queries/useUserItems'
 
 export default function MyItemsPage() {
 	const { data: currentUser } = useCurrentUser()
-	const { data: items } = useUserItems(currentUser?.id)
+	const { data: items } = useUserItems(currentUser?.id as string, {
+		enabled: Boolean(currentUser?.id),
+	})
 
 	return (
 		<Box>

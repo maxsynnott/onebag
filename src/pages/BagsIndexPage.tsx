@@ -5,6 +5,7 @@ import HeroContent from '../components/HeroContent'
 import useBags from '../hooks/queries/useBags'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
 import useUserBags from '../hooks/queries/useUserBags'
+import { Bag, WithUser } from '../types'
 
 const useStyles = makeStyles((theme) => ({
 	cardGrid: {
@@ -16,14 +17,17 @@ const useStyles = makeStyles((theme) => ({
 export default function BagsIndexPage() {
 	const classes = useStyles()
 
-	const { data: bags, isLoading, error } = useBags()
-	const { data: currentUser } = useCurrentUser()
-	const { data: userBags } = useUserBags(currentUser?.id)
+	const { data: bags, isLoading, error } = useBags({
+		queryParams: { relations: ['user'] },
+	})
+	const { data: currentUser } = useCurrentUser({
+		queryParams: { relations: ['bags'] },
+	})
 
 	if (isLoading) return <p>Loading...</p>
 	if (error || !bags) return <p>Error...</p>
 
-	const showHeroContent = !currentUser || userBags?.length === 0
+	const showHeroContent = currentUser?.bags?.length === 0
 
 	return (
 		<Container className={classes.cardGrid}>
@@ -35,7 +39,7 @@ export default function BagsIndexPage() {
 			)}
 
 			<Box mt={1}>
-				<BagsGrid bags={bags} />
+				<BagsGrid bags={bags as (Bag & WithUser)[]} />
 			</Box>
 		</Container>
 	)
