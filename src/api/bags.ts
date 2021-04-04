@@ -7,9 +7,10 @@ export const getBags = async () => {
 	return data
 }
 
-export const getBag = async (id: string) => {
-	const endpoint = `/bags/${id}`
-	const { data } = await axios.get<Bag>(endpoint)
+export const getBag = async (id: string, relations?: string[]) => {
+	let endpoint = `/bags/${id}`
+	if (relations) endpoint += `?relations=${relations.join(',')}`
+	const { data } = await axios.get<Bag>(endpoint, { withCredentials: true })
 	return data
 }
 

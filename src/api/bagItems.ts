@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { BagItem, BagItemPostRequestPayload } from '../types'
 
-export const getBagItems = async (bagId: string) => {
-	const endpoint = `/bags/${bagId}/bagItems`
+export const getBagItems = async (bagId?: string, relations?: string[]) => {
+	let endpoint = `/bags/${bagId}/bagItems`
+	if (relations) endpoint += `?relations=${relations.join(',')}`
 	const { data } = await axios.get<BagItem[]>(endpoint)
 	return data
 }
