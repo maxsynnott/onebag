@@ -4,8 +4,7 @@ import { useParams } from 'react-router-dom'
 import BagItemCard from '../components/BagItemCard'
 import BagMainCard from '../components/BagMainCard'
 import useBag from '../hooks/queries/useBag'
-import useBagItems from '../hooks/queries/useBagItems'
-import { Bag } from '../types'
+import { Bag, WithBagItems, WithImages } from '../types'
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -17,13 +16,10 @@ export default function BagsShowPage() {
 	const { id } = useParams<{ id: string }>()
 	const classes = useStyles()
 
-	const { data: bag } = useBag(id, {
-		queryParams: { relations: ['images'] },
+	const { data: bag } = useBag<Bag & WithImages & WithBagItems>(id, {
+		queryParams: { relations: ['images', 'bagItems'] },
 	})
-	const { data: bagItems } = useBagItems(bag?.id as string, {
-		queryParams: { relations: ['item'] },
-		enabled: Boolean(bag?.id),
-	})
+
 	if (!bag) return <p>Future 404 page</p>
 
 	return (
@@ -39,12 +35,11 @@ export default function BagsShowPage() {
 
 			<Grid item xs={12}>
 				<Grid container spacing={2}>
-					{bagItems &&
-						bagItems.map((bagItem) => (
-							<Grid item xs={12} md={6}>
-								<BagItemCard bagId={bag.id} bagItem={bagItem} />
-							</Grid>
-						))}
+					{bag.bagItems.map((bagItem) => (
+						<Grid item xs={12} md={6}>
+							<BagItemCard bagItem={bagItem} />
+						</Grid>
+					))}
 				</Grid>
 			</Grid>
 		</Grid>

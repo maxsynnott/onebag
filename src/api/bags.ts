@@ -53,24 +53,3 @@ export const deleteFavoriteBag = async (id: string) => {
 	})
 	return data
 }
-
-export const getUserBags = async (
-	userId: string,
-	queryParams?: QueryParamsObject,
-) => {
-	const endpoint = buildEndpoint(
-		'/users/:userId/bags',
-		{ userId },
-		queryParams,
-	)
-
-	const { data } = await axios.get(endpoint)
-	return data
-}
-
-export const getFavoriteBags = async (queryParams?: QueryParamsObject) => {
-	const endpoint = buildEndpoint('/bags/favorites', undefined, queryParams)
-
-	const { data } = await axios.get(endpoint, { withCredentials: true })
-	return data
-}

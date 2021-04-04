@@ -2,20 +2,6 @@ import axios from 'axios'
 import { BagItem, BagItemPostRequestPayload, QueryParamsObject } from '../types'
 import { buildEndpoint } from './helpers'
 
-export const getBagItems = async (
-	bagId: string,
-	queryParams?: QueryParamsObject,
-) => {
-	const endpoint = buildEndpoint(
-		'/bags/:bagId/bagItems',
-		{ bagId },
-		queryParams,
-	)
-
-	const { data } = await axios.get(endpoint)
-	return data
-}
-
 export const postBagItem = async (
 	bagId: string,
 	newBagItem: Partial<BagItemPostRequestPayload>,

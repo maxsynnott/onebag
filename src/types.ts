@@ -72,6 +72,18 @@ export interface WithImages {
 	images: Image[]
 }
 
+export interface WithBagItems {
+	bagItems: BagItem[]
+}
+
+export interface WithItems<T = Item> {
+	items: T[]
+}
+
+export interface WithFavoriteBags {
+	favoriteBags: Bag[]
+}
+
 export interface ExtendedUseQueryOptions<T = unknown, U = unknown, V = T>
 	extends UseQueryOptions<T, U, V> {
 	queryParams?: QueryParamsObject

@@ -5,7 +5,7 @@ import { ExtendedUseQueryOptions, User } from '../../types'
 export default function useCurrentUser<ReturnType = User>(
 	options?: ExtendedUseQueryOptions<ReturnType>,
 ) {
-	const queryKey = ['users', 'current']
+	const queryKey = ['users', 'current', options]
 
 	return useQuery<ReturnType>(
 		queryKey,

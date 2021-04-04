@@ -3,7 +3,7 @@ import React, { FormEvent, useState } from 'react'
 import { useParams } from 'react-router'
 import useCreateBagItem from '../hooks/mutations/useCreateBagItem'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
-import useUserItems from '../hooks/queries/useUserItems'
+import { User, WithItems } from '../types'
 
 export default function BagsEditPage() {
 	const { id } = useParams<{ id: string }>()
@@ -14,9 +14,8 @@ export default function BagsEditPage() {
 
 	const { mutate: createBagItem } = useCreateBagItem(id)
 
-	const { data: currentUser } = useCurrentUser()
-	const { data: items } = useUserItems(currentUser?.id as string, {
-		enabled: Boolean(currentUser?.id),
+	const { data: currentUser } = useCurrentUser<User & WithItems>({
+		queryParams: { relations: ['items'] },
 	})
 
 	const handleCreateBagItem = (e: FormEvent) => {
@@ -31,7 +30,7 @@ export default function BagsEditPage() {
 				value={itemId}
 				onChange={(e) => setItemId(e.target.value as string)}
 			>
-				{items?.map((item) => (
+				{currentUser?.items?.map((item) => (
 					<MenuItem value={item.id} key={item.id}>
 						{item.name}
 					</MenuItem>

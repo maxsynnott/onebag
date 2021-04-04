@@ -2,18 +2,21 @@ import { Box } from '@material-ui/core'
 import ItemsList from '../components/ItemsList'
 import NewItemInput from '../components/NewItemInput'
 import useCurrentUser from '../hooks/queries/useCurrentUser'
-import useUserItems from '../hooks/queries/useUserItems'
+import { Item, User, WithImages, WithItems } from '../types'
 
 export default function MyItemsPage() {
-	const { data: currentUser } = useCurrentUser()
-	const { data: items } = useUserItems(currentUser?.id as string, {
-		enabled: Boolean(currentUser?.id),
+	const { data: currentUser } = useCurrentUser<
+		User & WithItems<Item & WithImages>
+	>({
+		queryParams: { relations: ['items', 'items.images'] },
 	})
+
+	if (!currentUser) return null
 
 	return (
 		<Box>
 			<NewItemInput />
-			{items && <ItemsList items={items} />}
+			{<ItemsList items={currentUser.items} />}
 		</Box>
 	)
 }

@@ -15,11 +15,10 @@ import { useQueryClient } from 'react-query'
 import { BagItem } from '../types'
 
 interface BagItemListItemProps {
-	bagId: string
 	bagItem: BagItem
 }
 
-export default function BagItemCard({ bagId, bagItem }: BagItemListItemProps) {
+export default function BagItemCard({ bagItem }: BagItemListItemProps) {
 	const queryClient = useQueryClient()
 
 	return (
