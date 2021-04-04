@@ -6,6 +6,7 @@ import itemRouter from '../routers/itemRouter'
 import sessionRouter from '../routers/sessionRouter'
 import staticRouter from '../routers/staticRouter'
 import userRouter from '../routers/userRouter'
+import wishListItemRouter from '../routers/wishListItemRouter'
 
 export const initRouter = (app) => {
 	const appRouter = Router()
@@ -18,6 +19,7 @@ export const initRouter = (app) => {
 		userRouter,
 		bagItemRouter,
 		imageRouter,
+		wishListItemRouter,
 	]
 
 	routers.forEach((router) => appRouter.use(router))

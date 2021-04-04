@@ -11,6 +11,7 @@ import { BagItem } from './BagItem'
 import { Image } from './Image'
 import { Product } from './Product'
 import { User } from './User'
+import { WishListItem } from './WishlistItem'
 
 @Entity()
 export class Item {
@@ -28,6 +29,9 @@ export class Item {
 
 	@OneToMany(() => BagItem, (bagItem) => bagItem.item)
 	bagItems: BagItem[]
+
+	@OneToMany(() => WishListItem, (wishListItem) => wishListItem.item)
+	wishListItems: WishListItem[]
 
 	@ManyToMany(() => Image, (image) => image.items)
 	@JoinTable()

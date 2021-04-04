@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express'
 import passport from 'passport'
+import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 import { RoutesObject } from '../types'
 import applyRoutes from './applyRoutes'
 
@@ -19,6 +20,7 @@ const routes: RoutesObject = {
 		{
 			method: 'delete',
 			handlers: [
+				ensureAuthenticated,
 				(req: Request, res: Response) => {
 					req.logOut()
 					res.json(req.user)

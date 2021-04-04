@@ -8,6 +8,7 @@ import {
 } from 'typeorm'
 import { Bag } from './Bag'
 import { Item } from './Item'
+import { WishListItem } from './WishlistItem'
 
 @Entity()
 export class User {
@@ -32,4 +33,7 @@ export class User {
 
 	@OneToMany(() => Item, (item) => item.user)
 	items: Item[]
+
+	@OneToMany(() => Item, (item) => item.user)
+	wishListItems: WishListItem[]
 }
