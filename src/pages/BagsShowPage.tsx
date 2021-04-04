@@ -5,6 +5,7 @@ import BagItemCard from '../components/BagItemCard'
 import BagMainCard from '../components/BagMainCard'
 import useBag from '../hooks/queries/useBag'
 import useBagItems from '../hooks/queries/useBagItems'
+import { Bag } from '../types'
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -16,7 +17,9 @@ export default function BagsShowPage() {
 	const { id } = useParams<{ id: string }>()
 	const classes = useStyles()
 
-	const { data: bag } = useBag(id, { queryParams: { relations: ['images'] } })
+	const { data: bag } = useBag(id, {
+		queryParams: { relations: ['images'] },
+	})
 	const { data: bagItems } = useBagItems(bag?.id as string, {
 		queryParams: { relations: ['item'] },
 		enabled: Boolean(bag?.id),

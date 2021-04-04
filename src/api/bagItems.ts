@@ -11,7 +11,7 @@ export const getBagItems = async (
 		{ bagId },
 		queryParams,
 	)
-	const { data } = await axios.get<BagItem[]>(endpoint)
+	const { data } = await axios.get(endpoint)
 	return data
 }
 

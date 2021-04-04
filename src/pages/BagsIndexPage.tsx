@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BagsIndexPage() {
 	const classes = useStyles()
 
-	const { data: bags, isLoading, error } = useBags({
+	const { data: bags, isLoading, error } = useBags<(Bag & WithUser)[]>({
 		queryParams: { relations: ['user'] },
 	})
 	const { data: currentUser } = useCurrentUser({
@@ -39,7 +39,7 @@ export default function BagsIndexPage() {
 			)}
 
 			<Box mt={1}>
-				<BagsGrid bags={bags as (Bag & WithUser)[]} />
+				<BagsGrid bags={bags} />
 			</Box>
 		</Container>
 	)

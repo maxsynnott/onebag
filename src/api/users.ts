@@ -4,7 +4,7 @@ import { buildEndpoint } from './helpers'
 
 export const getCurrentUser = async (queryParams?: QueryParamsObject) => {
 	const endpoint = buildEndpoint('/users/current', undefined, queryParams)
-	const { data } = await axios.get<User>(endpoint, {
+	const { data } = await axios.get(endpoint, {
 		withCredentials: true,
 	})
 	return data

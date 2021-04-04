@@ -12,7 +12,7 @@ export const getBagImages = async (
 		queryParams,
 	)
 
-	const { data } = await axios.get<Image[]>(endpoint)
+	const { data } = await axios.get(endpoint)
 	return data
 }
 
@@ -34,7 +34,7 @@ export const getItemImages = async (
 		queryParams,
 	)
 
-	const { data } = await axios.get<Image[]>(endpoint)
+	const { data } = await axios.get(endpoint)
 	return data
 }
 

@@ -12,7 +12,7 @@ export const getUserItems = async (
 		queryParams,
 	)
 
-	const { data } = await axios.get<Item[]>(endpoint)
+	const { data } = await axios.get(endpoint)
 	return data
 }
 

@@ -7,15 +7,18 @@ import { Bag, WithUser } from '../types'
 
 export default function MyBagsPage() {
 	const { data: currentUser } = useCurrentUser()
-	const { data: bags } = useUserBags(currentUser?.id as string, {
-		queryParams: { relations: ['user'] },
-		enabled: Boolean(currentUser?.id),
-	})
+	const { data: bags } = useUserBags<(Bag & WithUser)[]>(
+		currentUser?.id as string,
+		{
+			queryParams: { relations: ['user'] },
+			enabled: Boolean(currentUser?.id),
+		},
+	)
 
 	if (!bags) return null
 	return (
 		<Container>
-			<BagsGrid bags={bags as (Bag & WithUser)[]} />
+			<BagsGrid bags={bags} />
 		</Container>
 	)
 }

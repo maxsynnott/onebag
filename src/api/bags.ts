@@ -4,13 +4,13 @@ import { buildEndpoint } from './helpers'
 
 export const getBags = async (queryParams?: QueryParamsObject) => {
 	const endpoint = buildEndpoint('/bags', undefined, queryParams)
-	const { data } = await axios.get<Bag[]>(endpoint)
+	const { data } = await axios.get(endpoint)
 	return data
 }
 
 export const getBag = async (id: string, queryParams?: QueryParamsObject) => {
 	const endpoint = buildEndpoint('/bags/:id', { id }, queryParams)
-	const { data } = await axios.get<Bag>(endpoint, { withCredentials: true })
+	const { data } = await axios.get(endpoint, { withCredentials: true })
 	return data
 }
 
@@ -57,12 +57,12 @@ export const getUserBags = async (
 		{ userId },
 		queryParams,
 	)
-	const { data } = await axios.get<Bag[]>(endpoint)
+	const { data } = await axios.get(endpoint)
 	return data
 }
 
 export const getFavoriteBags = async (queryParams?: QueryParamsObject) => {
 	const endpoint = buildEndpoint('/bags/favorites', undefined, queryParams)
-	const { data } = await axios.get<Bag[]>(endpoint, { withCredentials: true })
+	const { data } = await axios.get(endpoint, { withCredentials: true })
 	return data
 }

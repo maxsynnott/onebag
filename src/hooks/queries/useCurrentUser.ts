@@ -2,12 +2,12 @@ import { useQuery } from 'react-query'
 import { getCurrentUser } from '../../api/users'
 import { ExtendedUseQueryOptions, User } from '../../types'
 
-export default function useCurrentUser(
-	options?: ExtendedUseQueryOptions<User>,
+export default function useCurrentUser<ReturnType = User>(
+	options?: ExtendedUseQueryOptions<ReturnType>,
 ) {
 	const queryKey = ['users', 'current']
 
-	return useQuery(
+	return useQuery<ReturnType>(
 		queryKey,
 		() => getCurrentUser(options?.queryParams),
 		options,

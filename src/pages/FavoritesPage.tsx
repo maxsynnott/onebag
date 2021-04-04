@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FavoritesPage() {
 	const classes = useStyles()
 
-	const { data: bags } = useFavoriteBags({
+	const { data: bags } = useFavoriteBags<(Bag & WithUser)[]>({
 		queryParams: { relations: ['user'] },
 	})
 	if (!bags) return <p>404</p>
@@ -22,7 +22,7 @@ export default function FavoritesPage() {
 	return (
 		<Container className={classes.cardGrid}>
 			<Box mt={1}>
-				<BagsGrid bags={bags as (Bag & WithUser)[]} />
+				<BagsGrid bags={bags} />
 			</Box>
 		</Container>
 	)
