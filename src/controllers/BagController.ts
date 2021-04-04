@@ -1,6 +1,7 @@
 import { Response } from 'express'
 import { BagService } from '../services/BagService'
 import { ExtendedRequest } from '../types'
+import { extractRelations } from './helpers'
 
 export class BagController {
 	async index(req: ExtendedRequest, res: Response) {
@@ -61,10 +62,11 @@ export class BagController {
 
 	async show(req: ExtendedRequest, res: Response) {
 		const { id } = req.params
+		const relations = extractRelations(req)
 
 		const bagService = new BagService()
 
-		const bag = await bagService.findOne(id)
+		const bag = await bagService.findOne(id, relations)
 
 		const responseBody = await bagService.mapToResponseBody(
 			bag,

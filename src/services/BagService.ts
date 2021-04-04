@@ -3,6 +3,7 @@ import { isArray } from 'util'
 import { Bag } from '../entities/Bag'
 import { User } from '../entities/User'
 import { BagFavoriteAttributes, BagResponse } from '../types'
+import { ImageService } from './ImageService'
 
 export class BagService {
 	private bagRepository = getRepository(Bag)
@@ -20,8 +21,8 @@ export class BagService {
 		return user.bags
 	}
 
-	async findOne(id: string) {
-		return this.bagRepository.findOne(id)
+	async findOne(id: string, relations?: string[]) {
+		return this.bagRepository.findOne(id, { relations })
 	}
 
 	async create(attributes: Partial<Bag>) {
@@ -79,8 +80,15 @@ export class BagService {
 			bag.id,
 			userId,
 		)
+		const extraAttributes = { ...favoriteAttributes }
 
-		return { ...bag, ...favoriteAttributes }
+		const relations = {}
+		if (bag.images) {
+			const imageService = new ImageService()
+			relations['images'] = imageService.mapToResponseBody(bag.images)
+		}
+
+		return { ...bag, ...extraAttributes, ...relations }
 	}
 
 	async mapToResponseBody(
@@ -91,6 +99,6 @@ export class BagService {
 			? Promise.all(
 					input.map((bag) => this.mapBagToResponse(bag, userId)),
 			  )
-			: this.mapBagToResponse(input)
+			: this.mapBagToResponse(input, userId)
 	}
 }
